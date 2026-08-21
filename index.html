@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webinar Gemini Enterprise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2D2D2E;
+    --text:#35312E;
+    --text-soft:#6B645F;
+    --coral:#F36858;
+    --coral-deep:#DD5544;
+    --amber:#F5AB20;
+    --paper:#FFFFFF;
+    --mist:#F2EEEB;
+    --mist-line:#E4DEDA;
+    --cream:#FDEFEC;
+    --on-coral:#FFF7F5;
+    --backdrop: rgba(45,45,46,0.55);
+    --shadow: 0 20px 60px -20px rgba(45,45,46,0.25);
+    --focus: 2px solid var(--coral-deep);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#F3EFEC; --text:#E9E3DE; --text-soft:#B4ACA5;
+      --coral:#FF7C68; --coral-deep:#FF9585; --amber:#F7BE4E;
+      --paper:#1B1A19; --mist:#242220; --mist-line:#3A3633; --cream:#2E211E;
+      --on-coral:#241512; --backdrop: rgba(0,0,0,0.65); --shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#F3EFEC; --text:#E9E3DE; --text-soft:#B4ACA5;
+    --coral:#FF7C68; --coral-deep:#FF9585; --amber:#F7BE4E;
+    --paper:#1B1A19; --mist:#242220; --mist-line:#3A3633; --cream:#2E211E;
+    --on-coral:#241512; --backdrop: rgba(0,0,0,0.65); --shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-snap-type:y proximity; scroll-padding-top:76px;}
+  body{
+    margin:0; font-family:'Urbanist', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    background:var(--paper); color:var(--text); line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  svg{display:block; max-width:100%;}
+  ::selection{background:var(--coral); color:var(--on-coral);}
+  button{font-family:inherit;}
+
+  .slide{min-height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:center; padding:128px clamp(24px,6vw,96px) 92px; position:relative; border-bottom:1px solid var(--mist-line);}
+  .slide__inner{max-width:1160px; width:100%; margin:0 auto;}
+  .slide-index{position:absolute; top:128px; right:clamp(24px,6vw,96px); font-size:0.8rem; font-weight:700; letter-spacing:0.08em; color:var(--text-soft); font-variant-numeric:tabular-nums;}
+  .slide-index span{color:var(--coral);}
+  @media (max-width:720px){.slide-index{display:none;} .slide{padding:108px 22px 68px;}}
+
+  .eyebrow{display:inline-flex; align-items:center; gap:10px; font-size:0.78rem; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:var(--coral-deep); margin-bottom:20px;}
+  .eyebrow::before{content:""; width:20px; height:2px; background:var(--coral); border-radius:2px;}
+
+  h1,h2,h3{font-family:'Urbanist',sans-serif; margin:0; text-wrap:balance; color:var(--ink);}
+  h1{font-size:clamp(2.2rem,4.2vw,3.6rem); font-weight:800; line-height:1.07; letter-spacing:-0.01em;}
+  h2{font-size:clamp(1.9rem,3.2vw,2.7rem); font-weight:800; line-height:1.13; letter-spacing:-0.01em; max-width:19ch;}
+  h3{font-size:1.05rem; font-weight:700;}
+  .accent{color:var(--coral);}
+  p.lead{font-size:clamp(1.02rem,1.25vw,1.18rem); color:var(--text-soft); max-width:620px; line-height:1.62; margin:18px 0 0;}
+
+  /* header + rail nav */
+  header.topbar{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:15px clamp(20px,5vw,64px); background:color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter:blur(14px) saturate(1.1); border-bottom:1px solid var(--mist-line);}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none;}
+  .brand svg{height:24px; width:auto;}
+  .brand-divider{width:1px; height:19px; background:var(--mist-line);}
+  .brand-tag{font-size:0.8rem; font-weight:600; color:var(--text-soft);}
+  .topbar-cta{display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:var(--paper); font-weight:700; font-size:0.88rem; padding:10px 20px; border-radius:999px; text-decoration:none; transition:transform .15s ease, box-shadow .15s ease; white-space:nowrap;}
+  .topbar-cta:hover{transform:translateY(-1px); box-shadow:var(--shadow);}
+  .topbar-cta:focus-visible{outline:var(--focus); outline-offset:2px;}
+  @media (max-width:640px){.brand-tag{display:none;} .topbar-cta{padding:9px 14px; font-size:0.8rem;}}
+
+  nav.railnav{position:fixed; right:24px; top:50%; transform:translateY(-50%); z-index:40; display:flex; flex-direction:column; gap:14px; align-items:center;}
+  nav.railnav a{width:8px; height:8px; border-radius:50%; background:var(--mist-line); display:block; text-decoration:none; position:relative; transition:background .2s ease, transform .2s ease;}
+  nav.railnav a::after{content:attr(data-label); position:absolute; right:18px; top:50%; transform:translateY(-50%); font-size:0.7rem; font-weight:700; color:var(--ink); background:var(--paper); padding:4px 10px; border-radius:6px; border:1px solid var(--mist-line); white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s ease;}
+  nav.railnav a:hover::after, nav.railnav a:focus-visible::after{opacity:1;}
+  nav.railnav a.is-active{background:var(--coral); transform:scale(1.35);}
+  @media (max-width:900px){nav.railnav{display:none;}}
+
+  .scrollbar-top{position:fixed; top:0; left:0; height:3px; background:var(--coral); z-index:60; width:0%; transition:width .1s linear;}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease;}
+  .reveal.is-visible{opacity:1; transform:none;}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1; transform:none; transition:none;} html{scroll-behavior:auto;}}
+
+  .btn{display:inline-flex; align-items:center; gap:9px; font-weight:700; font-size:0.98rem; padding:15px 28px; border-radius:999px; text-decoration:none; border:none; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease, background .15s ease;}
+  .btn-primary{background:var(--ink); color:var(--paper);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:var(--shadow);}
+  .btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--mist-line);}
+  .btn-ghost:hover{border-color:var(--coral); color:var(--coral-deep);}
+  .btn-link{background:none; border:none; color:var(--coral-deep); font-weight:700; font-size:0.92rem; cursor:pointer; padding:0; display:inline-flex; align-items:center; gap:6px;}
+  .btn-link:hover{text-decoration:underline;}
+  .btn:focus-visible, .btn-link:focus-visible{outline:var(--focus); outline-offset:3px;}
+
+  .icon{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0;}
+
+  /* hero */
+  .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;}
+  .mockup-card{background:var(--paper); border:1px solid var(--mist-line); border-radius:18px; box-shadow:var(--shadow); overflow:hidden;}
+  .mockup-chrome{display:flex; align-items:center; gap:6px; padding:12px 16px; background:var(--mist); border-bottom:1px solid var(--mist-line);}
+  .mockup-dot{width:7px; height:7px; border-radius:50%; background:var(--mist-line);}
+  .mockup-chrome-title{margin-left:6px; font-size:0.74rem; font-weight:700; color:var(--text-soft);}
+  .mockup-body{padding:20px;}
+  .mockup-agent-tag{display:inline-flex; align-items:center; gap:6px; font-size:0.68rem; font-weight:800; letter-spacing:0.05em; text-transform:uppercase; color:var(--coral-deep); background:var(--cream); padding:5px 10px; border-radius:999px; margin-bottom:12px;}
+  .mockup-query{background:var(--mist); border-radius:12px 12px 12px 2px; padding:11px 14px; font-size:0.86rem; font-weight:600; color:var(--ink); margin-bottom:14px;}
+  .mockup-answer{font-size:0.86rem; color:var(--text); line-height:1.55; margin-bottom:12px;}
+  .mockup-sources{display:flex; gap:7px; flex-wrap:wrap;}
+  .source-chip{display:inline-flex; align-items:center; gap:5px; font-size:0.7rem; font-weight:700; padding:5px 10px; border-radius:999px; background:var(--cream); color:var(--coral-deep); border:1px solid var(--mist-line);}
+  .mockup-caption{text-align:center; font-size:0.76rem; color:var(--text-soft); font-style:italic; margin-top:12px;}
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+
+  .badge-row{display:flex; flex-wrap:wrap; gap:10px; margin:26px 0;}
+  .badge{display:inline-flex; align-items:center; gap:7px; font-size:0.85rem; font-weight:600; background:var(--mist); border:1px solid var(--mist-line); padding:9px 15px; border-radius:999px; font-variant-numeric:tabular-nums;}
+  .badge b{color:var(--coral-deep); font-weight:800;}
+  .cta-row{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:8px;}
+
+  .trust{margin-top:58px; padding-top:26px; border-top:1px solid var(--mist-line); display:flex; flex-wrap:wrap; gap:34px; align-items:baseline;}
+  .trust-label{width:100%; font-size:0.78rem; font-weight:700; letter-spacing:0.05em; color:var(--text-soft); text-transform:uppercase; margin-bottom:4px;}
+  .trust-stat strong{font-size:1.6rem; font-weight:800; color:var(--ink); font-variant-numeric:tabular-nums;}
+  .trust-stat span{display:block; font-size:0.82rem; color:var(--text-soft);}
+
+  /* constat */
+  .pain-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px;}
+  .pain-card{background:var(--mist); border:1px solid var(--mist-line); border-radius:16px; padding:20px 18px;}
+  .pain-card .num{font-size:0.74rem; font-weight:800; color:var(--coral-deep); letter-spacing:0.05em; display:block; margin-bottom:9px;}
+  .pain-card p{margin:0; font-weight:600; font-size:0.95rem; line-height:1.5;}
+  @media (max-width:820px){.pain-grid{grid-template-columns:1fr;}}
+  .bridge{margin-top:28px; padding:18px 22px; background:var(--cream); border-left:4px solid var(--coral); border-radius:4px; font-weight:700; font-size:1rem; max-width:720px;}
+
+  /* capacités */
+  .cat-label{font-size:0.74rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-soft); margin:30px 0 12px;}
+  .cat-label:first-of-type{margin-top:34px;}
+  .card-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .cap-card{background:var(--paper); border:1px solid var(--mist-line); border-radius:16px; padding:20px 19px; transition:border-color .2s ease, transform .2s ease;}
+  .cap-card:hover{border-color:var(--coral); transform:translateY(-2px);}
+  .cap-card .icon-wrap{width:36px; height:36px; border-radius:10px; background:var(--cream); display:flex; align-items:center; justify-content:center; margin-bottom:12px;}
+  .cap-card .icon-wrap .icon{color:var(--coral-deep); width:18px; height:18px;}
+  .cap-card h3{font-size:0.98rem; margin-bottom:6px;}
+  .cap-card p{margin:0; color:var(--text-soft); font-size:0.87rem; line-height:1.5;}
+  @media (max-width:980px){.card-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:640px){.card-grid{grid-template-columns:1fr;}}
+
+  .editions{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:30px; padding:16px 20px; background:var(--mist); border:1px solid var(--mist-line); border-radius:14px;}
+  .editions span.lbl{font-size:0.84rem; color:var(--text-soft); font-weight:600;}
+  .editions .chip{font-size:0.82rem; font-weight:700; background:var(--paper); border:1px solid var(--mist-line); padding:6px 13px; border-radius:999px;}
+
+  .learn-more{display:flex; gap:24px; flex-wrap:wrap; margin-top:26px;}
+
+  /* usages */
+  .usecase-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:32px;}
+  .usecase-card{border:1px solid var(--mist-line); border-radius:16px; overflow:hidden;}
+  .usecase-head{display:flex; align-items:center; gap:10px; padding:14px 16px; background:var(--mist); font-weight:700; font-size:0.95rem;}
+  .usecase-head .icon{color:var(--coral-deep);}
+  .usecase-body{padding:16px; display:grid; gap:9px;}
+  .usecase-row{display:grid; grid-template-columns:58px 1fr; gap:10px; font-size:0.87rem;}
+  .usecase-row .tag{font-weight:800; font-size:0.7rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--text-soft); padding-top:2px;}
+  .usecase-row.after .tag{color:var(--coral-deep);}
+  @media (max-width:820px){.usecase-grid{grid-template-columns:1fr;}}
+
+  /* synergies */
+  .synergy-grid{display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:32px; background:var(--mist-line); border-radius:16px; overflow:hidden;}
+  .synergy-cell{background:var(--paper); padding:24px 22px;}
+  .synergy-cell .icon-wrap{width:32px; height:32px; border-radius:9px; background:var(--cream); display:flex; align-items:center; justify-content:center; margin-bottom:11px;}
+  .synergy-cell .icon-wrap .icon{color:var(--coral-deep); width:16px; height:16px;}
+  .synergy-cell h3{margin-bottom:7px;}
+  .synergy-cell p{margin:0; color:var(--text-soft); font-size:0.9rem; line-height:1.55;}
+  @media (max-width:780px){.synergy-grid{grid-template-columns:1fr;}}
+
+  /* programme + speaker */
+  .prog-wrap{display:grid; grid-template-columns:1.3fr 1fr; gap:32px; margin-top:32px; align-items:start;}
+  .agenda-row{display:grid; grid-template-columns:72px 1fr; gap:14px; padding:14px 0; border-bottom:1px solid var(--mist-line);}
+  .agenda-time{font-weight:800; font-size:0.9rem; color:var(--coral-deep); font-variant-numeric:tabular-nums;}
+  .agenda-title{font-weight:700; font-size:0.98rem; margin-bottom:2px;}
+  .agenda-desc{color:var(--text-soft); font-size:0.84rem;}
+  .speaker-card{background:var(--mist); border:1px solid var(--mist-line); border-radius:16px; padding:24px;}
+  .avatar{width:70px; height:70px; border-radius:50%; background:linear-gradient(150deg, var(--coral), var(--amber)); color:var(--on-coral); display:flex; align-items:center; justify-content:center; font-size:1.3rem; font-weight:800; margin-bottom:14px;}
+  .speaker-name{font-size:1.1rem; font-weight:800;}
+  .speaker-role{font-size:0.85rem; font-weight:700; color:var(--coral-deep); margin-bottom:10px;}
+  .speaker-bio{font-size:0.86rem; color:var(--text-soft); line-height:1.58;}
+  @media (max-width:900px){.prog-wrap{grid-template-columns:1fr;}}
+
+  /* faq + closing */
+  .faq-list{margin-top:28px; max-width:760px;}
+  .faq-item{border-bottom:1px solid var(--mist-line);}
+  .faq-item summary{list-style:none; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 2px; font-weight:700; font-size:0.98rem; cursor:pointer;}
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary .plus{flex-shrink:0; width:25px; height:25px; border-radius:50%; border:1.5px solid var(--mist-line); display:flex; align-items:center; justify-content:center; color:var(--coral-deep); font-size:0.98rem; font-weight:800; transition:transform .2s ease;}
+  .faq-item[open] summary .plus{transform:rotate(45deg); border-color:var(--coral);}
+  .faq-item p{margin:0 2px 17px; color:var(--text-soft); max-width:65ch; font-size:0.9rem;}
+
+  .closing{background:var(--ink); color:var(--paper); border-bottom:none;}
+  .closing h2{color:var(--paper);}
+  .closing .accent{color:var(--coral);}
+  .closing p.lead{color:color-mix(in srgb, var(--paper) 72%, transparent);}
+  .closing .badge{background:color-mix(in srgb, var(--paper) 10%, transparent); border-color:color-mix(in srgb, var(--paper) 18%, transparent); color:var(--paper);}
+  .closing .badge b{color:var(--coral);}
+  .closing .btn-primary{background:var(--coral); color:var(--on-coral);}
+  .closing .btn-primary:hover{background:var(--coral-deep);}
+  .closing .btn-ghost{border-color:color-mix(in srgb, var(--paper) 30%, transparent); color:var(--paper);}
+  .footnote{margin-top:60px; padding-top:22px; border-top:1px solid color-mix(in srgb, var(--paper) 16%, transparent); font-size:0.76rem; color:color-mix(in srgb, var(--paper) 55%, transparent); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+  .footnote a{text-decoration:underline;}
+
+  /* modals */
+  dialog{border:none; border-radius:20px; padding:0; max-width:840px; width:92vw; max-height:86vh; background:var(--paper); color:var(--text); box-shadow:var(--shadow);}
+  dialog::backdrop{background:var(--backdrop);}
+  .modal-inner{padding:30px clamp(20px,4vw,40px) 36px; overflow-y:auto; max-height:86vh;}
+  .modal-head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:6px;}
+  .modal-close{flex-shrink:0; width:34px; height:34px; border-radius:50%; border:1.5px solid var(--mist-line); background:none; color:var(--text); font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;}
+  .modal-close:hover{border-color:var(--coral); color:var(--coral-deep);}
+  .diagram-wrap{background:var(--mist); border:1px solid var(--mist-line); border-radius:16px; padding:20px; margin-top:20px; overflow-x:auto;}
+  .diagram-wrap svg{min-width:640px;}
+  figcaption{font-size:0.82rem; color:var(--text-soft); margin-top:10px;}
+  .callout{margin-top:22px; padding:18px 20px; border-radius:12px; background:var(--cream); border:1px solid var(--mist-line);}
+  .callout h3{color:var(--coral-deep); margin-bottom:6px; font-size:0.95rem;}
+  .callout p{margin:0; font-size:0.9rem; line-height:1.55;}
+  .sec-list{list-style:none; margin:18px 0 0; padding:0; display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
+  .sec-list li{display:flex; gap:10px; align-items:flex-start; background:var(--mist); border-radius:10px; padding:11px 13px;}
+  .sec-list .icon{color:var(--coral-deep); width:16px; height:16px; margin-top:2px;}
+  .sec-list strong{display:block; font-size:0.85rem;}
+  .sec-list span{font-size:0.79rem; color:var(--text-soft);}
+  @media (max-width:640px){.sec-list{grid-template-columns:1fr;}}
+  .spec-card{background:var(--ink); color:var(--paper); border-radius:16px; padding:22px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .spec-card .item strong{display:block; font-size:1.35rem; font-weight:800; font-variant-numeric:tabular-nums; color:var(--coral);}
+  .spec-card .item span{font-size:0.72rem; color:color-mix(in srgb, var(--paper) 70%, transparent); font-weight:600;}
+  @media (max-width:640px){.spec-card{grid-template-columns:repeat(2,1fr);}}
+  .bench-pair{display:flex; gap:32px; margin-top:20px; flex-wrap:wrap;}
+  .bench-pair strong{display:block; font-size:1.7rem; font-weight:800;}
+  .bench-pair .win strong{color:var(--coral-deep);}
+  .bench-pair span{font-size:0.8rem; color:var(--text-soft); font-weight:600;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:7px; margin-top:14px;}
+  .chip{font-size:0.78rem; font-weight:700; background:var(--mist); border:1px solid var(--mist-line); padding:6px 11px; border-radius:999px;}
+</style>
+</head>
+<body>
+
+<div class="scrollbar-top" id="scrollProgress"></div>
+
+<header class="topbar">
+  <a href="#hero" class="brand" aria-label="Retour en haut">
+    <svg viewBox="0 0 144 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M55.6339 9.87867H59.6635V26.1204H55.6339L55.4525 24.1064C55.001 24.8322 54.4039 25.4194 53.6608 25.8682C52.9181 26.3179 52.0399 26.5427 51.027 26.5427C49.8051 26.5427 48.6594 26.3153 47.5919 25.8608C46.5239 25.406 45.5857 24.7783 44.7764 23.9767C43.9675 23.1754 43.3342 22.2496 42.8774 21.1993C42.4202 20.1493 42.1921 19.023 42.1921 17.8211C42.1921 16.6193 42.4092 15.5741 42.8439 14.5563C43.279 13.5385 43.8871 12.6452 44.6691 11.8761C45.4507 11.1074 46.3532 10.5067 47.377 10.0736C48.4008 9.64081 49.5014 9.4238 50.6797 9.4238C51.7698 9.4238 52.7468 9.66208 53.6114 10.1387C54.4754 10.6152 55.2102 11.2216 55.8161 11.9581L55.6343 9.8791L55.6339 9.87867ZM50.9278 22.7258C51.7865 22.7258 52.546 22.5148 53.2067 22.0925C53.8669 21.6702 54.3845 21.099 54.7592 20.3789C55.1334 19.6589 55.3205 18.8659 55.3205 17.9991C55.3205 17.1323 55.1334 16.3237 54.7592 15.6036C54.3845 14.8836 53.8642 14.3119 53.1987 13.8896C52.5323 13.4677 51.7755 13.2564 50.9282 13.2564C50.0809 13.2564 49.3068 13.4703 48.6078 13.8974C47.9088 14.3258 47.3532 14.8966 46.9401 15.6114C46.527 16.3254 46.321 17.1219 46.321 17.9987C46.321 18.8754 46.5297 19.6719 46.9481 20.3859C47.3664 21.1007 47.9255 21.6693 48.6241 22.0916C49.3232 22.514 50.091 22.7249 50.9278 22.7249V22.7258Z" fill="var(--ink)"/>
+      <path d="M71.8171 13.8415H68.6132V26.1204H64.5836V13.8415H62.1397V9.87827H64.5836V4.77832H68.6132V9.87827H71.8171V13.8415Z" fill="var(--ink)"/>
+      <path d="M81.6926 26.5427C80.1737 26.5427 78.7888 26.1581 77.5395 25.3894C76.2897 24.6208 75.2937 23.5869 74.5505 22.2874C73.8074 20.9883 73.4358 19.5534 73.4358 17.983C73.4358 16.8029 73.6507 15.6956 74.0801 14.6618C74.509 13.6274 75.1008 12.7181 75.855 11.933C76.6092 11.1482 77.487 10.5336 78.4892 10.0896C79.491 9.64557 80.5589 9.42335 81.6931 9.42335C82.9808 9.42335 84.1618 9.69158 85.235 10.2276C86.3087 10.7632 87.2196 11.4972 87.9685 12.4282C88.717 13.3596 89.262 14.4204 89.6031 15.6119C89.9442 16.8029 90.0215 18.0481 89.8343 19.3472H77.7628C77.9168 19.9535 78.1701 20.4978 78.5227 20.9796C78.8749 21.4614 79.3206 21.8455 79.8604 22.1324C80.3996 22.4198 81.0104 22.5682 81.6931 22.579C82.3974 22.5899 83.0391 22.4245 83.6167 22.0838C84.1944 21.7427 84.6763 21.28 85.0616 20.6949L89.1737 21.6372C88.5025 23.0773 87.5003 24.2553 86.168 25.1698C84.8361 26.0852 83.3445 26.5427 81.6931 26.5427H81.6926ZM77.63 16.3753H85.7549C85.6335 15.7256 85.378 15.1388 84.9875 14.6131C84.5965 14.0884 84.1146 13.6687 83.5426 13.3549C82.9698 13.0406 82.3533 12.8835 81.6931 12.8835C81.0329 12.8835 80.4213 13.038 79.8604 13.3466C79.2986 13.6552 78.8224 14.0723 78.4314 14.5975C78.0408 15.1227 77.7734 15.7156 77.6304 16.3758L77.63 16.3753Z" fill="var(--ink)"/>
+      <path d="M102.814 21.2314L106.447 23.1641C105.687 24.1819 104.735 24.9997 103.591 25.6169C102.445 26.2341 101.196 26.5427 99.8418 26.5427C98.3229 26.5427 96.938 26.1581 95.6887 25.3894C94.4389 24.6208 93.4429 23.5895 92.6997 22.2956C91.9566 21.0018 91.585 19.5699 91.585 17.9995C91.585 16.8085 91.7999 15.6961 92.2293 14.6618C92.6582 13.6274 93.2505 12.7181 94.0047 11.933C94.7584 11.1482 95.6366 10.5336 96.6384 10.0896C97.6402 9.64557 98.7081 9.42335 99.8423 9.42335C101.197 9.42335 102.446 9.73195 103.591 10.3492C104.736 10.9664 105.688 11.7949 106.448 12.8345L102.814 14.7507C102.429 14.318 101.975 13.982 101.452 13.7438C100.929 13.5059 100.393 13.3861 99.8423 13.3861C99.0497 13.3861 98.3339 13.6005 97.6958 14.0276C97.0572 14.4556 96.5501 15.0181 96.1763 15.7165C95.8021 16.4153 95.615 17.1757 95.615 17.9986C95.615 18.8216 95.8021 19.5664 96.1763 20.2643C96.5506 20.9627 97.0572 21.5226 97.6958 21.9453C98.3339 22.3677 99.0501 22.579 99.8423 22.579C100.415 22.579 100.96 22.4571 101.477 22.2132C101.995 21.9697 102.44 21.642 102.814 21.2305L102.814 21.2314Z" fill="var(--ink)"/>
+      <path d="M124.546 15.8554V26.1204H120.517V16.8949C120.517 16.256 120.357 15.6739 120.038 15.1488C119.718 14.6236 119.292 14.2065 118.758 13.8979C118.224 13.5893 117.632 13.4352 116.983 13.4352C116.333 13.4352 115.741 13.5893 115.208 13.8979C114.673 14.2065 114.25 14.6236 113.936 15.1488C113.622 15.6739 113.465 16.256 113.465 16.8949V26.1204H109.436L109.419 9.87867H113.449L113.465 11.3244C114.027 10.7398 114.698 10.2767 115.48 9.93553C116.262 9.59481 117.104 9.4238 118.007 9.4238C119.206 9.4238 120.302 9.71373 121.293 10.2932C122.284 10.8722 123.074 11.6469 123.663 12.6157C124.252 13.5849 124.547 14.6648 124.547 15.8558L124.546 15.8554Z" fill="var(--ink)"/>
+      <path d="M139.97 9.87867H144V26.1204H139.97L139.789 24.1064C139.338 24.8322 138.74 25.4194 137.997 25.8682C137.254 26.3179 136.376 26.5427 135.363 26.5427C134.141 26.5427 132.996 26.3153 131.928 25.8608C130.86 25.406 129.922 24.7783 129.113 23.9767C128.304 23.1754 127.671 22.2496 127.214 21.1993C126.757 20.1493 126.528 19.023 126.528 17.8211C126.528 16.6193 126.746 15.5741 127.18 14.5563C127.615 13.5385 128.223 12.6452 129.005 11.8761C129.787 11.1074 130.69 10.5067 131.714 10.0736C132.737 9.64081 133.838 9.4238 135.016 9.4238C136.106 9.4238 137.083 9.66208 137.948 10.1387C138.812 10.6152 139.547 11.2216 140.152 11.9581L139.971 9.8791L139.97 9.87867ZM135.264 22.7258C136.123 22.7258 136.883 22.5148 137.543 22.0925C138.203 21.6702 138.721 21.099 139.095 20.3789C139.47 19.6589 139.657 18.8659 139.657 17.9991C139.657 17.1323 139.47 16.3237 139.095 15.6036C138.721 14.8836 138.201 14.3119 137.535 13.8896C136.869 13.4677 136.112 13.2564 135.265 13.2564C134.417 13.2564 133.643 13.4703 132.944 13.8974C132.245 14.3258 131.689 14.8966 131.276 15.6114C130.863 16.3254 130.657 17.1219 130.657 17.9987C130.657 18.8754 130.866 19.6719 131.285 20.3859C131.703 21.1007 132.261 21.6693 132.961 22.0916C133.66 22.514 134.427 22.7249 135.264 22.7249V22.7258Z" fill="var(--ink)"/>
+      <path d="M36.6034 18C36.5906 25.0727 35.9053 30.0003 33.1687 32.6288C30.5028 35.3138 25.4926 35.9874 18.3015 36C11.1104 35.9874 6.1002 35.3134 3.42764 32.6219C0.697704 29.9999 0.0127979 25.0722 0 17.9996C0.0127979 10.9269 0.698141 5.99928 3.43425 3.37074C6.10063 0.686215 11.1108 0.0125871 18.3019 0C25.493 0.0125871 30.5032 0.686649 33.1758 3.37769C35.9057 5.99971 36.5906 10.9273 36.6034 18Z" fill="#F36858"/>
+      <path d="M13.2163 26.3194C11.8381 26.3194 10.5447 25.934 9.42638 25.1705C7.59186 23.9183 6.45197 21.7351 6.45197 19.4738C6.45197 17.4012 7.13202 15.4416 8.4736 13.649C9.76354 11.925 11.3505 10.7817 12.4546 10.1263C13.858 9.2934 15.7252 8.73349 17.5769 8.58939C19.6528 8.42793 21.5482 8.80337 22.9132 9.64627C23.5487 10.0386 23.7402 10.8629 23.3417 11.4879C22.9427 12.1129 22.1047 12.3013 21.4692 11.9093C19.5164 10.704 15.8907 11.2079 13.858 12.4141C12.7578 13.0674 9.16822 15.5067 9.16822 19.4738C9.16822 20.8731 9.86062 22.2152 10.9749 22.976C12.1228 23.7595 13.5795 23.8615 15.1881 23.2707C15.6581 23.098 16.1537 22.8684 16.6426 22.591C16.5067 22.223 16.4048 21.8293 16.3381 21.4126C16.1321 20.1222 16.3015 18.9234 16.4798 18.1452C17.1983 15.0084 19.1524 13.8326 20.7711 14.0591C21.591 14.1737 22.2455 14.5752 22.6634 15.2211C23.309 16.218 23.3126 17.6417 22.674 19.7016C22.3095 20.8783 21.5584 22.0311 20.4878 23.0646C21.3951 23.5559 22.5504 23.7512 23.7283 23.5919C25.3523 23.3727 26.821 22.4951 27.6581 21.2442C28.0703 20.6279 28.9128 20.4569 29.5394 20.8627C30.1661 21.2681 30.34 22.0967 29.9273 22.713C28.6471 24.6271 26.5222 25.9123 24.0977 26.2391C21.8942 26.5369 19.7737 26.0056 18.2221 24.7777C17.5517 25.1757 16.8456 25.5143 16.1382 25.7743C15.1444 26.1393 14.1603 26.3203 13.2159 26.3203L13.2163 26.3194ZM20.3748 16.7029C20.1824 16.7029 19.4922 17.1495 19.1298 18.732C18.9842 19.3679 18.9242 20.0819 18.9917 20.7407C19.4886 20.1834 19.8748 19.5697 20.0756 18.9221C20.5337 17.4433 20.4388 16.8639 20.3902 16.7042C20.3898 16.7042 20.3894 16.7042 20.3889 16.7042C20.3845 16.7037 20.3796 16.7033 20.3748 16.7033V16.7029Z" fill="var(--paper)"/>
+      <path d="M28.7971 22.8987C29.3165 22.8987 29.7375 22.4846 29.7375 21.9738C29.7375 21.4629 29.3165 21.0488 28.7971 21.0488C28.2777 21.0488 27.8567 21.4629 27.8567 21.9738C27.8567 22.4846 28.2777 22.8987 28.7971 22.8987Z" fill="#F36858"/>
+    </svg>
+    <span class="brand-divider" aria-hidden="true"></span>
+    <span class="brand-tag">Webinar · Gemini Enterprise</span>
+  </a>
+  <a class="topbar-cta" href="mailto:czarkal@atecna.fr?subject=Inscription%20webinar%20Gemini%20Enterprise&body=Bonjour%2C%0A%0AJe%20souhaite%20r%C3%A9server%20ma%20place%20pour%20le%20webinar%20%C2%AB%20Gemini%20Enterprise%20%C2%BB%20du%2024%20septembre%202026%20(11h-12h).%0A%0ANom%20%3A%0AEntreprise%20%3A%0AFonction%20%3A%0A%0AMerci%2C">Réserver ma place</a>
+</header>
+
+<nav class="railnav" aria-label="Navigation des sections">
+  <a href="#hero" data-label="Accueil"></a>
+  <a href="#constat" data-label="Constat"></a>
+  <a href="#capacites" data-label="Capacités"></a>
+  <a href="#usages" data-label="Cas d'usage"></a>
+  <a href="#synergies" data-label="Synergies"></a>
+  <a href="#programme" data-label="Programme"></a>
+  <a href="#inscription" data-label="Inscription"></a>
+</nav>
+
+<!-- icon sprite -->
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="i-search-doc" viewBox="0 0 24 24"><rect x="5" y="3" width="10" height="14" rx="1"/><line x1="7.5" y1="7" x2="12.5" y2="7"/><line x1="7.5" y1="10" x2="12.5" y2="10"/><circle cx="16" cy="16" r="3"/><line x1="18.2" y1="18.2" x2="20.5" y2="20.5"/></symbol>
+    <symbol id="i-notebook" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></symbol>
+    <symbol id="i-canvas" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 20h8"/><path d="M12 18v2"/><path d="M7 9l3 3-3 3" opacity="0"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l1.6 5.6L19 10l-5.4 1.4L12 17l-1.6-5.6L5 10l5.4-1.4L12 3z"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M9 4h4v2.5a1.5 1.5 0 0 0 3 0V4h4v4h-2.5a1.5 1.5 0 0 0 0 3H20v4h-4v-2.5a1.5 1.5 0 0 0-3 0V19H9v-4H6.5a1.5 1.5 0 0 1 0-3H9V8H6.5a1.5 1.5 0 0 1 0-3H9V4z"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24"><rect x="4" y="12" width="4" height="8" rx="0.5"/><rect x="10" y="7" width="4" height="13" rx="0.5"/><rect x="16" y="3" width="4" height="17" rx="0.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3.3 7.7-7 9-3.7-1.3-7-4-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/></symbol>
+    <symbol id="i-sales" viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h5v5"/></symbol>
+    <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="14" width="4" height="6" rx="1.5"/><rect x="17.5" y="14" width="4" height="6" rx="1.5"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1"/><circle cx="18" cy="9" r="2.4"/><path d="M15.5 13a5 5 0 0 1 5.5 5"/></symbol>
+    <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24"><line x1="9" y1="2" x2="9" y2="8"/><line x1="15" y1="2" x2="15" y2="8"/><path d="M7 8h10v3.5a5 5 0 0 1-10 0V8z"/><line x1="12" y1="16.5" x2="12" y2="22"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M8.5 8.8a3 3 0 0 1 4.2-4.2l1.2 1.2a3 3 0 0 1 0 4.2l-1 1"/><path d="M15.5 15.2a3 3 0 0 1-4.2 4.2l-1.2-1.2a3 3 0 0 1 0-4.2l1-1"/></symbol>
+  </defs>
+</svg>
+
+<!-- 01 HERO -->
+<section class="slide" id="hero">
+  <span class="slide-index"><span>01</span> / 07</span>
+  <div class="slide__inner">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow reveal">Webinar gratuit · 1 heure · en ligne</p>
+        <h1 class="reveal">Faites de l'IA un avantage <span class="accent">concurrentiel réel</span> avec Gemini Enterprise</h1>
+        <p class="lead reveal">Une heure pour découvrir concrètement ce que la plateforme IA d'entreprise de Google permet de faire — et pourquoi c'est le bon moment d'en parler avec nous. Animé par un expert IA d'ATECNA, sans jargon inutile.</p>
+
+        <div class="badge-row reveal">
+          <span class="badge">📅 <b>Jeudi 24 septembre 2026</b></span>
+          <span class="badge">🕚 <b>11h00 – 12h00</b> (heure de Paris)</span>
+          <span class="badge">💻 Visioconférence</span>
+          <span class="badge">🎟 <b>Gratuit</b></span>
+        </div>
+
+        <div class="cta-row reveal">
+          <a class="btn btn-primary" href="mailto:czarkal@atecna.fr?subject=Inscription%20webinar%20Gemini%20Enterprise&body=Bonjour%2C%0A%0AJe%20souhaite%20r%C3%A9server%20ma%20place%20pour%20le%20webinar%20%C2%AB%20Gemini%20Enterprise%20%C2%BB%20du%2024%20septembre%202026%20(11h-12h).%0A%0ANom%20%3A%0AEntreprise%20%3A%0AFonction%20%3A%0A%0AMerci%2C">Réserver ma place →</a>
+          <a class="btn btn-ghost" href="mailto:czarkal@atecna.fr?subject=Demande%20d%27échange%20-%20Gemini%20Enterprise&body=Bonjour%2C%0A%0APlutôt%20qu%27attendre%20le%20webinar%2C%20je%20souhaiterais%20un%20échange%20direct%20de%2030%20minutes%20sur%20Gemini%20Enterprise%20pour%20notre%20entreprise.%0A%0ANom%20%3A%0AEntreprise%20%3A%0AFonction%20%3A%0ADisponibilités%20%3A%0A%0AMerci%2C">Ou réserver un échange direct</a>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="mockup-card">
+          <div class="mockup-chrome"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-chrome-title">Gemini Enterprise</span></div>
+          <div class="mockup-body">
+            <span class="mockup-agent-tag">Agent · Analyste commercial</span>
+            <div class="mockup-query">« Compare notre offre Cloud à celle de notre concurrent pour le compte Dupont SA »</div>
+            <p class="mockup-answer">Voici 3 différenciateurs clés, construits à partir de votre argumentaire interne et de l'historique du compte.</p>
+            <div class="mockup-sources">
+              <span class="source-chip">📄 Argumentaire_Concurrence.pdf</span>
+              <span class="source-chip">🔗 Salesforce — Compte Dupont SA</span>
+            </div>
+          </div>
+        </div>
+        <p class="mockup-caption">Illustration du principe de fonctionnement — pas une capture d'écran officielle Google.</p>
+      </div>
+    </div>
+
+    <div class="trust reveal">
+      <span class="trust-label">ATECNA, cabinet de conseil en transformation digitale et IA</span>
+      <div class="trust-stat"><strong>+120</strong><span>clients grands comptes, nationaux et internationaux</span></div>
+      <div class="trust-stat"><strong>23M€</strong><span>de chiffre d'affaires en 2025</span></div>
+      <div class="trust-stat"><strong>+150</strong><span>experts à double compétence technique &amp; métier</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 CONSTAT -->
+<section class="slide" id="constat">
+  <span class="slide-index"><span>02</span> / 07</span>
+  <div class="slide__inner">
+    <p class="eyebrow reveal">Le constat</p>
+    <h2 class="reveal">Vos équipes testent l'IA générative.<br><span class="accent">Votre entreprise n'en tire pas encore parti.</span></h2>
+    <p class="lead reveal">Depuis deux ans, les usages individuels d'IA se sont multipliés — souvent sans cadre, sans lien avec les données de l'entreprise, et sans que la direction puisse en mesurer l'impact réel.</p>
+
+    <div class="pain-grid reveal">
+      <div class="pain-card"><span class="num">01 — SHADOW AI</span><p>Des initiatives IA éparpillées, portées par quelques équipes, sans vision ni gouvernance d'ensemble</p></div>
+      <div class="pain-card"><span class="num">02 — DONNÉES ISOLÉES</span><p>Des données stratégiques — CRM, ERP, documentation interne — hors de portée des outils IA grand public</p></div>
+      <div class="pain-card"><span class="num">03 — ROI INVISIBLE</span><p>Un retour sur investissement difficile à démontrer au comité de direction, faute de plateforme commune</p></div>
+    </div>
+
+    <p class="bridge reveal">Gemini Enterprise change la donne : une plateforme IA unique, connectée à vos données, gouvernée de bout en bout. C'est exactement ce que nous allons vous montrer.</p>
+  </div>
+</section>
+
+<!-- 03 CAPACITÉS -->
+<section class="slide" id="capacites">
+  <span class="slide-index"><span>03</span> / 07</span>
+  <div class="slide__inner">
+    <p class="eyebrow reveal">Ce que propose vraiment la plateforme</p>
+    <h2 class="reveal">Les capacités de <span class="accent">Gemini Enterprise</span></h2>
+    <p class="lead reveal">Pas une liste marketing : voici, catégorie par catégorie, ce que la plateforme fait concrètement aujourd'hui.</p>
+
+    <p class="cat-label reveal">Chercher &amp; comprendre</p>
+    <div class="card-grid reveal">
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-search-doc"/></svg></div><h3>Recherche d'entreprise</h3><p>Interroge en langage naturel vos documents, CRM et ERP — via des connecteurs SharePoint, Jira, Confluence, Salesforce, SAP — et répond avec la source citée.</p></div>
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-notebook"/></svg></div><h3>Gemini Notebook &amp; Deep Research</h3><p>Deux agents signés Google, prêts à l'emploi : l'un analyse un corpus de documents en profondeur, l'autre mène une recherche multi-sources.</p></div>
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-canvas"/></svg></div><h3>Canvas</h3><p>Crée et modifie documents et présentations générés par IA depuis vos conversations, exportables vers Workspace, Microsoft Office ou PDF.</p></div>
+    </div>
+
+    <p class="cat-label reveal">Créer &amp; automatiser</p>
+    <div class="card-grid reveal">
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-star"/></svg></div><h3>Agent Designer</h3><p>Un générateur d'agents en glisser-déposer, sans code : un responsable métier peut créer et publier son propre agent.</p></div>
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-puzzle"/></svg></div><h3>Agents tiers du marketplace</h3><p>Des agents signés Adobe, Salesforce, ServiceNow ou Workday, intégrables directement et partageables dans toute l'organisation.</p></div>
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-bars"/></svg></div><h3>Data Science Agent</h3><p>Automatise l'exploration, le nettoyage et la préparation des données — sans expertise data science côté métier.</p></div>
+    </div>
+
+    <p class="cat-label reveal">Gouverner &amp; sécuriser</p>
+    <div class="card-grid reveal">
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-shield"/></svg></div><h3>Gouvernance centralisée</h3><p>Un cadre unique pour la DSI : permissions, IAM, audit et visibilité sur tous les agents actifs dans l'entreprise.</p></div>
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-lock"/></svg></div><h3>Sécurité de niveau entreprise</h3><p>VPC Service Controls, chiffrement par clés gérées (CMEK), filtrage Model Armor, conformité HIPAA et FedRAMP High.</p></div>
+      <div class="cap-card"><div class="icon-wrap"><svg class="icon"><use href="#i-globe"/></svg></div><h3>Déploiement multilingue</h3><p>125 langues reconnues à l'oral, plus de 220 voix de synthèse — pour un déploiement homogène à l'international.</p></div>
+    </div>
+
+    <div class="editions reveal">
+      <span class="lbl">Des formules pensées pour s'adapter à votre taille :</span>
+      <span class="chip">Business</span><span class="chip">Standard</span><span class="chip">Plus</span><span class="chip">Frontline</span>
+    </div>
+
+    <div class="learn-more reveal">
+      <button class="btn-link" data-modal="modal-architecture">Voir comment ça fonctionne techniquement <span aria-hidden="true">→</span></button>
+      <button class="btn-link" data-modal="modal-modele">Voir les performances du modèle <span aria-hidden="true">→</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- 04 CAS D'USAGE -->
+<section class="slide" id="usages">
+  <span class="slide-index"><span>04</span> / 07</span>
+  <div class="slide__inner">
+    <p class="eyebrow reveal">Sur le terrain</p>
+    <h2 class="reveal">Des cas d'usage concrets, <span class="accent">pas des promesses</span></h2>
+
+    <div class="usecase-grid reveal">
+      <div class="usecase-card">
+        <div class="usecase-head"><svg class="icon"><use href="#i-sales"/></svg>Vente</div>
+        <div class="usecase-body">
+          <div class="usecase-row"><span class="tag">Avant</span><span>Le commercial cherche manuellement la bonne étude de cas, ou compare seul l'offre à la concurrence</span></div>
+          <div class="usecase-row after"><span class="tag">Après</span><span>Il obtient en quelques secondes le document le plus pertinent, ou une comparaison structurée face à un concurrent nommé</span></div>
+        </div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-head"><svg class="icon"><use href="#i-headset"/></svg>Support client</div>
+        <div class="usecase-body">
+          <div class="usecase-row"><span class="tag">Avant</span><span>Réponses aux heures ouvrées, dépendantes de la disponibilité d'un agent</span></div>
+          <div class="usecase-row after"><span class="tag">Après</span><span>Réponses 24h/24, sourcées dans la documentation produit, avec escalade humaine si besoin</span></div>
+        </div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-head"><svg class="icon"><use href="#i-people"/></svg>Ressources humaines</div>
+        <div class="usecase-body">
+          <div class="usecase-row"><span class="tag">Avant</span><span>Les questions sur congés, notes de frais, avantages saturent une boîte mail</span></div>
+          <div class="usecase-row after"><span class="tag">Après</span><span>Un agent répond en continu, avec les bonnes règles internes, sans exposer de données sensibles</span></div>
+        </div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-head"><svg class="icon"><use href="#i-coins"/></svg>Finance</div>
+        <div class="usecase-body">
+          <div class="usecase-row"><span class="tag">Avant</span><span>Un analyste compile manuellement rapports internes et données de marché</span></div>
+          <div class="usecase-row after"><span class="tag">Après</span><span>L'agent croise les sources et propose une première synthèse, validée ensuite par l'humain</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="bridge reveal">Dans chaque cas, l'IA ne remplace pas la décision finale — elle supprime le temps perdu avant la décision.</p>
+  </div>
+</section>
+
+<!-- 05 SYNERGIES -->
+<section class="slide" id="synergies">
+  <span class="slide-index"><span>05</span> / 07</span>
+  <div class="slide__inner">
+    <p class="eyebrow reveal">Les synergies clés</p>
+    <h2 class="reveal">Le bon outil ne suffit pas.<br><span class="accent">Ce sont les synergies qui créent la valeur.</span></h2>
+
+    <div class="synergy-grid reveal">
+      <div class="synergy-cell"><div class="icon-wrap"><svg class="icon"><use href="#i-plug"/></svg></div><h3>Synergie avec le SI existant</h3><p>Gemini Enterprise s'ajoute à Workspace, Microsoft 365, Salesforce, SAP : pas de migration, pas de rupture. Le ROI arrive plus vite parce qu'on ne repart pas de zéro.</p></div>
+      <div class="synergy-cell"><div class="icon-wrap"><svg class="icon"><use href="#i-link"/></svg></div><h3>Synergie inter-métiers</h3><p>Un socle IA commun pour la vente, le support, les RH et la finance fait circuler la connaissance au lieu de la cloisonner par silo.</p></div>
+      <div class="synergy-cell"><div class="icon-wrap"><svg class="icon"><use href="#i-people"/></svg></div><h3>Synergie humain + IA</h3><p>Chez ATECNA, nous parlons de professionnel augmenté : l'IA absorbe la recherche d'information et la préparation, l'expertise humaine reste sur le jugement.</p></div>
+      <div class="synergy-cell"><div class="icon-wrap"><svg class="icon"><use href="#i-shield"/></svg></div><h3>Synergie conseil + plateforme</h3><p>Cadrage, choix du cas d'usage prioritaire, formation des équipes : c'est ce qui transforme un pilote isolé en adoption qui tient à l'échelle.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 PROGRAMME -->
+<section class="slide" id="programme">
+  <span class="slide-index"><span>06</span> / 07</span>
+  <div class="slide__inner">
+    <p class="eyebrow reveal">Au programme — 60 minutes</p>
+    <h2 class="reveal">Une heure, <span class="accent">cinq temps</span></h2>
+
+    <div class="prog-wrap reveal">
+      <div>
+        <div class="agenda-row"><div class="agenda-time">00–05</div><div><div class="agenda-title">État des lieux de l'IA générative en entreprise</div><div class="agenda-desc">Un constat rapide et sans complaisance des usages actuels</div></div></div>
+        <div class="agenda-row"><div class="agenda-time">05–20</div><div><div class="agenda-title">Gemini Enterprise décrypté</div><div class="agenda-desc">Les capacités réelles de la plateforme, expliquées en langage métier</div></div></div>
+        <div class="agenda-row"><div class="agenda-time">20–35</div><div><div class="agenda-title">Cas d'usage concrets</div><div class="agenda-desc">Vente, support, RH, finance : des exemples précis</div></div></div>
+        <div class="agenda-row"><div class="agenda-time">35–50</div><div><div class="agenda-title">Les synergies à connaître</div><div class="agenda-desc">Intégrer sans rupture, sans dépendance excessive à un seul outil</div></div></div>
+        <div class="agenda-row" style="border-bottom:none;"><div class="agenda-time">50–60</div><div><div class="agenda-title">Vos questions, nos réponses</div><div class="agenda-desc">Session ouverte, spécifique à votre contexte</div></div></div>
+      </div>
+      <div class="speaker-card">
+        <div class="avatar">CZ</div>
+        <div class="speaker-name">Chadi Zarkal</div>
+        <div class="speaker-role">Consultant IA &amp; Transformation Digitale — ATECNA</div>
+        <p class="speaker-bio">Accompagne l'adoption pragmatique de l'IA générative en entreprise, du cadrage stratégique à la mise en œuvre. Pilote chez ATECNA les offres autour des plateformes agentiques, dont Gemini Enterprise.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 INSCRIPTION -->
+<section class="slide closing" id="inscription">
+  <span class="slide-index"><span>07</span> / 07</span>
+  <div class="slide__inner">
+    <p class="eyebrow reveal">Dernière étape</p>
+    <h2 class="reveal">Prêt à voir ce que l'IA peut vraiment faire <span class="accent">pour votre entreprise ?</span></h2>
+    <p class="lead reveal">Rejoignez-nous le temps d'une heure — ou, si vous préférez aller plus vite, parlons-en directement.</p>
+
+    <div class="badge-row reveal">
+      <span class="badge">📅 <b>Jeudi 24 septembre 2026</b></span>
+      <span class="badge">🕚 <b>11h00 – 12h00</b></span>
+      <span class="badge">💻 Visioconférence</span>
+      <span class="badge">🎟 <b>Gratuit</b></span>
+    </div>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="mailto:czarkal@atecna.fr?subject=Inscription%20webinar%20Gemini%20Enterprise&body=Bonjour%2C%0A%0AJe%20souhaite%20r%C3%A9server%20ma%20place%20pour%20le%20webinar%20%C2%AB%20Gemini%20Enterprise%20%C2%BB%20du%2024%20septembre%202026%20(11h-12h).%0A%0ANom%20%3A%0AEntreprise%20%3A%0AFonction%20%3A%0A%0AMerci%2C">Réserver ma place gratuite →</a>
+      <a class="btn btn-ghost" href="mailto:czarkal@atecna.fr?subject=Demande%20d%27échange%20-%20Gemini%20Enterprise&body=Bonjour%2C%0A%0APlutôt%20qu%27attendre%20le%20webinar%2C%20je%20souhaiterais%20un%20échange%20direct%20de%2030%20minutes%20sur%20Gemini%20Enterprise%20pour%20notre%20entreprise.%0A%0ANom%20%3A%0AEntreprise%20%3A%0AFonction%20%3A%0ADisponibilités%20%3A%0A%0AMerci%2C">Réserver un échange direct (30 min)</a>
+    </div>
+
+    <h2 style="margin-top:50px; font-size:1.35rem;" class="reveal">Questions fréquentes</h2>
+    <div class="faq-list reveal">
+      <details class="faq-item" open>
+        <summary>Faut-il des compétences techniques pour suivre ce webinar ?<span class="plus">+</span></summary>
+        <p>Non. La session s'adresse aux décideurs métier et IT : tout est expliqué en langage métier, sans ligne de code à l'écran.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Le webinar est-il vraiment gratuit ?<span class="plus">+</span></summary>
+        <p>Oui, entièrement gratuit et sans engagement, sur simple inscription par email.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Puis-je réserver un échange direct plutôt qu'attendre le webinar ?<span class="plus">+</span></summary>
+        <p>Oui. Un call de 30 minutes suffit pour évaluer votre contexte et voir si Gemini Enterprise a du sens chez vous — utilisez le bouton « Réserver un échange direct ».</p>
+      </details>
+      <details class="faq-item">
+        <summary>Gemini Enterprise va-t-il remplacer nos outils actuels ?<span class="plus">+</span></summary>
+        <p>Non : il s'y connecte et les enrichit via des connecteurs natifs. C'est l'objet du bloc dédié aux synergies avec votre écosystème existant.</p>
+      </details>
+    </div>
+
+    <div class="footnote reveal">
+      <span>© 2026 ATECNA — Agence de conseil en transformation digitale et IA. Webinar organisé indépendamment de Google. Gemini et Gemini Enterprise sont des marques de Google LLC.</span>
+      <a href="https://www.atecna.fr" target="_blank" rel="noopener">atecna.fr</a>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL: architecture -->
+<dialog id="modal-architecture">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <div>
+        <p class="eyebrow" style="margin-bottom:8px;">Pour aller plus loin</p>
+        <h2 style="font-size:1.4rem; max-width:none;">Comment Gemini Enterprise construit une réponse fiable</h2>
+      </div>
+      <button class="modal-close" data-close aria-label="Fermer">✕</button>
+    </div>
+    <p class="lead" style="font-size:0.96rem; margin-top:10px;">Le trajet réel d'une requête, du document source à l'action déclenchée dans vos systèmes.</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 1180 320" role="img" aria-label="Diagramme : les données sources alimentent un moteur de grounding par recherche vectorielle, qui fournit un contexte factuel au modèle Gemini, dont le raisonnement est orchestré par l'Agent Platform pour déclencher une action dans les systèmes de l'entreprise. Les étapes de grounding, modèle et orchestration sont encadrées par un périmètre de sécurité VPC Service Controls et CMEK.">
+        <defs>
+          <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <rect x="210" y="78" width="685" height="185" rx="16" fill="none" stroke="var(--coral)" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.55"/>
+        <text x="552" y="65" text-anchor="middle" font-family="Urbanist" font-size="12.5" font-weight="800" fill="var(--coral-deep)" letter-spacing="0.5">PÉRIMÈTRE VPC SERVICE CONTROLS + CMEK</text>
+
+        <rect x="10" y="130" width="150" height="90" rx="14" fill="var(--paper)" stroke="var(--mist-line)" stroke-width="1.5"/>
+        <text x="85" y="157" text-anchor="middle" font-family="Urbanist" font-size="13" font-weight="800" fill="currentColor">Vos données</text>
+        <text x="85" y="177" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">Documents · CRM</text>
+        <text x="85" y="191" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">ERP · Workspace</text>
+
+        <rect x="225" y="98" width="175" height="150" rx="14" fill="var(--paper)" stroke="var(--mist-line)" stroke-width="1.5"/>
+        <text x="312" y="128" text-anchor="middle" font-family="Urbanist" font-size="13" font-weight="800" fill="currentColor">Grounding</text>
+        <text x="312" y="146" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">Recherche vectorielle</text>
+        <text x="312" y="160" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">+ appels API directs</text>
+        <text x="312" y="178" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">(ex. CRM en direct)</text>
+
+        <rect x="465" y="98" width="175" height="150" rx="14" fill="var(--cream)" stroke="var(--coral)" stroke-width="2.5"/>
+        <text x="552" y="128" text-anchor="middle" font-family="Urbanist" font-size="13" font-weight="800" fill="var(--coral-deep)">Modèle Gemini</text>
+        <text x="552" y="146" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text)">Raisonne sur le</text>
+        <text x="552" y="160" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text)">contexte factuel fourni,</text>
+        <text x="552" y="174" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text)">pas sur sa mémoire générale</text>
+
+        <rect x="705" y="98" width="175" height="150" rx="14" fill="var(--paper)" stroke="var(--mist-line)" stroke-width="1.5"/>
+        <text x="792" y="128" text-anchor="middle" font-family="Urbanist" font-size="13" font-weight="800" fill="currentColor">Agent Platform</text>
+        <text x="792" y="146" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">Orchestration</text>
+        <text x="792" y="160" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">+ déclenchement</text>
+        <text x="792" y="174" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">d'actions multi-outils</text>
+
+        <rect x="945" y="130" width="225" height="90" rx="14" fill="var(--paper)" stroke="var(--mist-line)" stroke-width="1.5"/>
+        <text x="1057" y="157" text-anchor="middle" font-family="Urbanist" font-size="13" font-weight="800" fill="currentColor">Vos systèmes</text>
+        <text x="1057" y="177" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">Ticket créé · CRM mis à jour</text>
+        <text x="1057" y="191" text-anchor="middle" font-family="Urbanist" font-size="10" fill="var(--text-soft)">Document généré</text>
+
+        <g stroke="currentColor" stroke-width="1.8" fill="none" marker-end="url(#arrow2)">
+          <line x1="163" y1="175" x2="222" y2="175"/>
+          <line x1="403" y1="175" x2="462" y2="175"/>
+          <line x1="643" y1="175" x2="702" y2="175"/>
+          <line x1="883" y1="175" x2="942" y2="175"/>
+        </g>
+      </svg>
+    </div>
+    <figcaption>Le grounding distingue une réponse sourcée d'une réponse générique de chatbot : le modèle raisonne sur ce que vos documents disent réellement, avec citation de la source.</figcaption>
+
+    <div class="callout">
+      <h3>Grounding ≠ prompt engineering</h3>
+      <p>Ce n'est pas une astuce de formulation de question : c'est une étape de recherche qui injecte des faits vérifiables dans le contexte du modèle avant qu'il ne réponde — ce qui réduit les hallucinations et permet de citer la source exacte.</p>
+    </div>
+
+    <ul class="sec-list">
+      <li><svg class="icon"><use href="#i-shield"/></svg><div><strong>VPC Service Controls</strong><span>Isole le trafic dans un périmètre réseau privé</span></div></li>
+      <li><svg class="icon"><use href="#i-lock"/></svg><div><strong>CMEK</strong><span>Clés de chiffrement gérées par le client</span></div></li>
+      <li><svg class="icon"><use href="#i-shield"/></svg><div><strong>Access Transparency</strong><span>Visibilité sur les accès de Google à vos données</span></div></li>
+      <li><svg class="icon"><use href="#i-lock"/></svg><div><strong>Model Armor</strong><span>Filtrage de contenu et détection de prompts malveillants</span></div></li>
+    </ul>
+  </div>
+</dialog>
+
+<!-- MODAL: modèle -->
+<dialog id="modal-modele">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <div>
+        <p class="eyebrow" style="margin-bottom:8px;">Pour aller plus loin</p>
+        <h2 style="font-size:1.4rem; max-width:none;">Gemini 3.5 Flash, en chiffres vérifiables</h2>
+      </div>
+      <button class="modal-close" data-close aria-label="Fermer">✕</button>
+    </div>
+    <p class="lead" style="font-size:0.96rem; margin-top:10px;">Le modèle qui alimente par défaut les agents Gemini Enterprise, sorti le 19 mai 2026.</p>
+
+    <div class="spec-card">
+      <div class="item"><strong>1 048 576</strong><span>tokens de contexte en entrée</span></div>
+      <div class="item"><strong>65 536</strong><span>tokens de sortie maximum</span></div>
+      <div class="item"><strong>289 tok/s</strong><span>vitesse de génération</span></div>
+      <div class="item"><strong>Jan. 2025</strong><span>coupure des connaissances</span></div>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 640 200" role="img" aria-label="Graphique en barres horizontales de la vitesse de génération en tokens par seconde : Gemini 3.5 Flash à 289, GPT-5.5 à 71, Claude Opus 4.7 à 67.">
+        <g font-family="Urbanist" font-size="12" font-weight="700">
+          <text x="150" y="32" text-anchor="end" fill="currentColor">Gemini 3.5 Flash</text>
+          <rect x="160" y="17" width="420" height="28" rx="4" fill="var(--coral)"/>
+          <text x="590" y="36" fill="var(--coral-deep)" font-weight="800">289 tok/s</text>
+          <text x="150" y="90" text-anchor="end" fill="var(--text-soft)" font-weight="600">GPT-5.5</text>
+          <rect x="160" y="75" width="103" height="28" rx="4" fill="var(--mist-line)"/>
+          <text x="273" y="94" fill="var(--text-soft)" font-weight="700">71 tok/s</text>
+          <text x="150" y="148" text-anchor="end" fill="var(--text-soft)" font-weight="600">Claude Opus 4.7</text>
+          <rect x="160" y="133" width="97" height="28" rx="4" fill="var(--mist-line)"/>
+          <text x="267" y="152" fill="var(--text-soft)" font-weight="700">67 tok/s</text>
+        </g>
+        <line x1="160" y1="10" x2="160" y2="172" stroke="var(--mist-line)" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <figcaption>Débit de génération en sortie, en tokens par seconde — sources publiques 2026, à réactualiser avant présentation.</figcaption>
+
+    <div class="bench-pair">
+      <div class="win"><strong>83,6%</strong><span>Gemini 3.5 Flash — MCP Atlas (coordination multi-outils)</span></div>
+      <div><strong>75,3%</strong><span>GPT-5.5 — même benchmark</span></div>
+    </div>
+
+    <div class="chip-row">
+      <span class="chip">Texte</span><span class="chip">Image</span><span class="chip">Vidéo</span><span class="chip">PDF</span><span class="chip">Audio</span><span class="chip">Sortie JSON structurée</span>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.railnav a'));
+  var sections = dots.map(function(d){ return document.querySelector(d.getAttribute('href')); });
+  var progress = document.getElementById('scrollProgress');
+
+  function onScroll(){
+    var doc = document.documentElement;
+    var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+    progress.style.width = Math.min(100, Math.max(0, pct)) + '%';
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if ('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var idx = sections.indexOf(entry.target);
+        if (idx === -1) return;
+        if (entry.isIntersecting){
+          dots.forEach(function(d){ d.classList.remove('is-active'); });
+          dots[idx].classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    sections.forEach(function(s){ if (s) obs.observe(s); });
+
+    var reveal = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el){ reveal.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  document.querySelectorAll('[data-modal]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var dlg = document.getElementById(btn.getAttribute('data-modal'));
+      if (dlg && dlg.showModal) dlg.showModal();
+    });
+  });
+  document.querySelectorAll('dialog').forEach(function(dlg){
+    dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+    dlg.querySelectorAll('[data-close]').forEach(function(btn){ btn.addEventListener('click', function(){ dlg.close(); }); });
+  });
+})();
+</script>
+</body>
+</html>
