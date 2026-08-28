@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gemini Enterprise — Dossier de référence ATECNA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2D2D2E; --text:#35312E; --text-soft:#6B645F; --text-faint:#8B8580;
+    --coral:#F36858; --coral-deep:#DD5544; --amber:#F5AB20; --green:#3E8E5A; --red:#C24A3D;
+    --paper:#FFFFFF; --mist:#F2EEEB; --mist-line:#E4DEDA; --cream:#FDEFEC;
+    --code-bg:#F5F1EC; --on-coral:#FFF7F5;
+    --shadow: 0 20px 50px -20px rgba(45,45,46,0.22);
+    --focus: 2px solid var(--coral-deep);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#F3EFEC; --text:#E9E3DE; --text-soft:#B4ACA5; --text-faint:#847D77;
+      --coral:#FF7C68; --coral-deep:#FF9585; --amber:#F7BE4E; --green:#5CB57E; --red:#E27362;
+      --paper:#1B1A19; --mist:#242220; --mist-line:#3A3633; --cream:#2E211E;
+      --code-bg:#242220; --on-coral:#241512;
+      --shadow: 0 20px 50px -20px rgba(0,0,0,0.55);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#F3EFEC; --text:#E9E3DE; --text-soft:#B4ACA5; --text-faint:#847D77;
+    --coral:#FF7C68; --coral-deep:#FF9585; --amber:#F7BE4E; --green:#5CB57E; --red:#E27362;
+    --paper:#1B1A19; --mist:#242220; --mist-line:#3A3633; --cream:#2E211E;
+    --code-bg:#242220; --on-coral:#241512;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.55);
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'Urbanist',-apple-system,'Segoe UI',Roboto,Arial,sans-serif; background:var(--paper); color:var(--text); line-height:1.62; -webkit-font-smoothing:antialiased;}
+  a{color:var(--coral-deep);}
+  code{font-family:'JetBrains Mono',ui-monospace,monospace; font-size:0.86em; background:var(--code-bg); padding:0.15em 0.45em; border-radius:5px; color:var(--ink);}
+  ::selection{background:var(--coral); color:var(--on-coral);}
+
+  /* top banner */
+  .banner{background:var(--ink); color:var(--paper); padding:10px clamp(16px,4vw,40px); font-size:0.8rem; font-weight:700; display:flex; align-items:center; justify-content:center; gap:10px; text-align:center; letter-spacing:0.01em;}
+  .banner span.dot{width:6px; height:6px; border-radius:50%; background:var(--coral); flex-shrink:0;}
+
+  header.top{position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px clamp(16px,4vw,40px); background:color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid var(--mist-line);}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{width:30px; height:30px; border-radius:8px; background:var(--coral); color:var(--on-coral); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.9rem; flex-shrink:0;}
+  .brand-text{font-weight:800; font-size:0.98rem; color:var(--ink); line-height:1.2;}
+  .brand-text small{display:block; font-weight:600; font-size:0.74rem; color:var(--text-soft);}
+  .top-meta{font-size:0.78rem; color:var(--text-faint); font-weight:600; text-align:right;}
+
+  .layout{display:grid; grid-template-columns:260px 1fr; gap:0; max-width:1360px; margin:0 auto; align-items:start;}
+  @media (max-width:980px){.layout{grid-template-columns:1fr;}}
+
+  nav.toc{position:sticky; top:73px; align-self:start; height:calc(100vh - 73px); overflow-y:auto; padding:28px 18px 60px; border-right:1px solid var(--mist-line);}
+  @media (max-width:980px){nav.toc{position:static; height:auto; border-right:none; border-bottom:1px solid var(--mist-line); padding:20px clamp(16px,4vw,40px);}}
+  nav.toc .grp{margin-bottom:22px;}
+  nav.toc .grp-label{font-size:0.68rem; font-weight:800; letter-spacing:0.09em; text-transform:uppercase; color:var(--text-faint); padding:0 10px; margin-bottom:6px;}
+  nav.toc a{display:block; padding:7px 10px; border-radius:8px; color:var(--text-soft); text-decoration:none; font-size:0.86rem; font-weight:600; line-height:1.35;}
+  nav.toc a:hover{background:var(--mist); color:var(--ink);}
+  nav.toc a.lvl2{padding-left:20px; font-weight:500; font-size:0.81rem;}
+
+  main.content{padding:36px clamp(18px,4vw,56px) 120px; min-width:0;}
+  .content-inner{max-width:880px;}
+
+  .intro{padding:22px 24px; background:var(--cream); border:1px solid var(--mist-line); border-radius:16px; margin-bottom:44px;}
+  .intro p{margin:0 0 8px; font-size:0.92rem; color:var(--text);}
+  .intro p:last-child{margin-bottom:0;}
+  .intro strong{color:var(--coral-deep);}
+
+  section.doc-section{margin-bottom:56px; scroll-margin-top:90px;}
+  section.doc-section > .eyebrow{display:inline-block; font-size:0.72rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--coral-deep); margin-bottom:10px;}
+  h1{font-size:clamp(1.8rem,3vw,2.5rem); font-weight:900; letter-spacing:-0.01em; color:var(--ink); margin:0 0 10px;}
+  h1.sub{font-size:1.05rem; font-weight:600; color:var(--text-soft); margin:0 0 40px;}
+  h2{font-size:1.5rem; font-weight:800; color:var(--ink); letter-spacing:-0.005em; margin:0 0 6px; scroll-margin-top:90px;}
+  h2 .n{color:var(--coral); font-variant-numeric:tabular-nums; margin-right:8px;}
+  h3{font-size:1.08rem; font-weight:700; color:var(--ink); margin:28px 0 10px; scroll-margin-top:90px;}
+  h4{font-size:0.95rem; font-weight:700; color:var(--ink); margin:20px 0 8px;}
+  p{margin:0 0 14px; font-size:0.94rem; color:var(--text);}
+  ul,ol{margin:0 0 14px; padding-left:22px; font-size:0.94rem;}
+  li{margin-bottom:6px;}
+  .section-desc{color:var(--text-soft); font-size:0.94rem; margin-bottom:22px;}
+
+  /* tables */
+  .table-wrap{overflow-x:auto; margin:0 0 22px; border:1px solid var(--mist-line); border-radius:14px;}
+  table{border-collapse:collapse; width:100%; font-size:0.83rem; min-width:520px;}
+  th,td{padding:10px 14px; text-align:left; border-bottom:1px solid var(--mist-line); vertical-align:top;}
+  th{background:var(--mist); font-weight:800; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-soft); white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  td.center, th.center{text-align:center;}
+  .yes{color:var(--green); font-weight:800;}
+  .no{color:var(--text-faint);}
+
+  /* callouts */
+  .callout{border-radius:12px; padding:14px 18px; margin:0 0 18px; font-size:0.87rem; border:1px solid transparent;}
+  .callout p{margin:0; font-size:0.87rem;}
+  .callout p + p{margin-top:8px;}
+  .callout.warn{background:var(--cream); border-color:color-mix(in srgb, var(--coral) 35%, var(--mist-line)); }
+  .callout.warn::before{content:"⚠️ Point de vigilance"; display:block; font-weight:800; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--coral-deep); margin-bottom:6px;}
+  .callout.info{background:var(--mist); border-color:var(--mist-line);}
+  .callout.info::before{content:"À retenir"; display:block; font-weight:800; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-soft); margin-bottom:6px;}
+  .callout.quote{background:var(--paper); border-left:3px solid var(--coral); border-radius:4px; font-style:italic; color:var(--text-soft);}
+
+  .badge{display:inline-flex; align-items:center; gap:5px; font-size:0.68rem; font-weight:800; padding:3px 9px; border-radius:999px; letter-spacing:0.02em; white-space:nowrap;}
+  .badge.high{background:color-mix(in srgb, var(--green) 16%, transparent); color:var(--green);}
+  .badge.med{background:color-mix(in srgb, var(--amber) 20%, transparent); color:#8a6710;}
+  :root[data-theme="dark"] .badge.med, :root:not([data-theme="light"]) .badge.med{color:var(--amber);}
+  .badge.low{background:color-mix(in srgb, var(--red) 14%, transparent); color:var(--red);}
+
+  .src{font-size:0.72rem; color:var(--text-faint); margin:-8px 0 16px;}
+  .src a{color:var(--text-faint); text-decoration:underline;}
+
+  .chip-list{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 18px;}
+  .chip{font-size:0.76rem; font-weight:700; background:var(--mist); border:1px solid var(--mist-line); padding:5px 11px; border-radius:999px; color:var(--text);}
+
+  .timeline{border-left:2px solid var(--mist-line); margin:0 0 20px; padding:0;}
+  .tl-item{position:relative; padding:0 0 20px 22px;}
+  .tl-item::before{content:""; position:absolute; left:-6px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--coral); border:2px solid var(--paper);}
+  .tl-date{font-size:0.72rem; font-weight:800; color:var(--coral-deep); text-transform:uppercase; letter-spacing:0.04em;}
+  .tl-item p{margin:2px 0 0;}
+
+  .checklist{list-style:none; padding:0; margin:0 0 20px;}
+  .checklist li{display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--mist-line); font-size:0.88rem;}
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{content:"☐"; color:var(--coral-deep); font-size:1rem; flex-shrink:0; line-height:1.4;}
+
+  .card-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin:0 0 20px;}
+  .stat-card{background:var(--mist); border:1px solid var(--mist-line); border-radius:14px; padding:16px 18px;}
+  .stat-card strong{display:block; font-size:1.35rem; font-weight:900; color:var(--ink); font-variant-numeric:tabular-nums;}
+  .stat-card span{font-size:0.78rem; color:var(--text-soft);}
+
+  .clarify-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 20px;}
+  @media (max-width:700px){.clarify-grid{grid-template-columns:1fr;}}
+  .clarify-card{border:1px solid var(--mist-line); border-radius:14px; padding:16px 18px;}
+  .clarify-card.focus{border-color:var(--coral); background:var(--cream);}
+  .clarify-card h4{margin:0 0 6px;}
+  .clarify-card p{font-size:0.83rem; margin:0; color:var(--text-soft);}
+  .clarify-card.focus p{color:var(--text);}
+
+  .research-links{display:grid; gap:10px; margin:0 0 20px;}
+  .research-link{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 18px; border:1px solid var(--mist-line); border-radius:12px; text-decoration:none; transition:border-color .15s ease;}
+  .research-link:hover{border-color:var(--coral);}
+  .research-link .rl-text strong{display:block; font-size:0.9rem; color:var(--ink); font-weight:800;}
+  .research-link .rl-text span{font-size:0.78rem; color:var(--text-soft);}
+  .research-link .rl-arrow{color:var(--coral-deep); font-weight:800; flex-shrink:0;}
+
+  hr.sep{border:none; border-top:1px solid var(--mist-line); margin:44px 0;}
+  footer.doc-footer{max-width:880px; padding:0 clamp(18px,4vw,56px) 60px; margin:0 auto; font-size:0.78rem; color:var(--text-faint);}
+</style>
+</head>
+<body>
+
+<div class="banner"><span class="dot"></span> Document interne ATECNA — usage commercial et projet uniquement, ne pas diffuser à l'externe</div>
+
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark">GE</div>
+    <div class="brand-text">Gemini Enterprise — Dossier de référence<small>Compilé par ATECNA · non indexé, accès direct uniquement</small></div>
+  </div>
+  <div class="top-meta">Dernière recherche : 28/08/2026<br>Périmètre : Gemini Enterprise uniquement</div>
+</header>
+
+<div class="layout">
+  <nav class="toc" aria-label="Sommaire">
+    <div class="grp">
+      <div class="grp-label">Vue d'ensemble</div>
+      <a href="#intro">Cadrage du document</a>
+      <a href="#vue-ensemble">01 · Qu'est-ce que Gemini Enterprise</a>
+      <a href="#vue-ensemble-chrono" class="lvl2">Chronologie 2025-2026</a>
+    </div>
+    <div class="grp">
+      <div class="grp-label">Commercial</div>
+      <a href="#tarification">02 · Éditions & tarification</a>
+      <a href="#tarification-tableau" class="lvl2">Tableau comparatif éditions</a>
+      <a href="#tarification-quotas" class="lvl2">Quotas inclus & dépassements</a>
+    </div>
+    <div class="grp">
+      <div class="grp-label">Mise en œuvre</div>
+      <a href="#prerequis">03 · Prérequis techniques</a>
+      <a href="#prerequis-iam" class="lvl2">IAM, SSO & rôles</a>
+      <a href="#prerequis-flux" class="lvl2">Flux de provisioning</a>
+      <a href="#prerequis-checklist" class="lvl2">Checklist de cadrage</a>
+    </div>
+    <div class="grp">
+      <div class="grp-label">Sécurité</div>
+      <a href="#gouvernance">04 · Gouvernance & sécurité</a>
+      <a href="#gouvernance-conformite" class="lvl2">Conformité & certifications</a>
+      <a href="#gouvernance-vigilance" class="lvl2">Points de vigilance RSSI</a>
+    </div>
+    <div class="grp">
+      <div class="grp-label">Produit</div>
+      <a href="#fonctionnalites">05 · Fonctionnalités natives</a>
+      <a href="#fonctionnalites-agents" class="lvl2">Agent Designer & Marketplace</a>
+      <a href="#fonctionnalites-connecteurs" class="lvl2">Connecteurs (liste complète)</a>
+      <a href="#fonctionnalites-modeles" class="lvl2">Modèles & multimodalité</a>
+    </div>
+    <div class="grp">
+      <div class="grp-label">Écosystème</div>
+      <a href="#antigravity">06 · Antigravity & cas d'usage</a>
+      <a href="#antigravity-bundle" class="lvl2">Le bundle Antigravity</a>
+      <a href="#antigravity-cas" class="lvl2">Cas clients réels</a>
+    </div>
+    <div class="grp">
+      <div class="grp-label">Annexes</div>
+      <a href="#sources">07 · Dossiers complets (.md)</a>
+    </div>
+  </nav>
+
+  <main class="content">
+    <div class="content-inner">
+
+      <div id="intro" class="intro">
+        <p><strong>Ce document est une compilation de recherche</strong>, pas un support marketing. Il rassemble tout ce qui a pu être vérifié sur Gemini Enterprise (tarification, prérequis techniques, sécurité, fonctionnalités, écosystème) à partir de sources officielles Google Cloud, avec citation systématique. Chaque affirmation non confirmée directement est marquée <span class="badge low">⚠️ non vérifié</span>.</p>
+        <p>Ce dossier couvre <strong>exclusivement Gemini Enterprise</strong> (l'application par licence utilisateur) — pas la Gemini API générique, pas Vertex AI en tant que tel, pas l'app Gemini grand public. Les distinctions sont explicitées section par section car ce sont des produits fréquemment confondus, y compris dans la documentation Google elle-même.</p>
+        <p>Cinq dossiers markdown intégralement sourcés (recherche brute, plus détaillée que cette synthèse) sont disponibles en annexe, section 07.</p>
+      </div>
+
+      <section class="doc-section" id="vue-ensemble">
+        <span class="eyebrow">01 — Vue d'ensemble</span>
+        <h1>Qu'est-ce que Gemini Enterprise, précisément ?</h1>
+        <h1 class="sub">Positionnement, historique et clarification des produits adjacents fréquemment confondus</h1>
+
+        <p>Gemini Enterprise est décrit officiellement comme <em>« an intranet search, AI assistant, and agentic platform »</em> qui permet aux collaborateurs d'utiliser l'IA générative et des workflows agentiques en s'appuyant sur les sources de données de l'organisation. <a href="https://docs.cloud.google.com/gemini/enterprise/docs" target="_blank">Source</a></p>
+
+        <p>Ses composants principaux : recherche d'entreprise multimodale et sensible aux permissions, assistant conversationnel ancré sur les données de l'entreprise, agents pré-construits ou personnalisés via une Agent Gallery, et connecteurs natifs vers les outils tiers (Salesforce, SAP, ServiceNow, Microsoft 365, etc.).</p>
+
+        <div class="callout warn">
+          <p>Google possède <strong>cinq produits aux noms proches</strong> qui sont très régulièrement confondus — y compris par les propres commerciaux Google parfois. Ne jamais les mélanger dans un discours client :</p>
+        </div>
+
+        <div class="clarify-grid">
+          <div class="clarify-card focus">
+            <h4>✅ Gemini Enterprise (l'application)</h4>
+            <p>Objet de ce document. Plateforme métier : recherche, assistant, agents no-code. Facturée <strong>par licence utilisateur / mois</strong>.</p>
+          </div>
+          <div class="clarify-card">
+            <h4>Gemini Enterprise Agent Platform</h4>
+            <p>Anciennement Vertex AI. Plateforme technique pour développeurs (ADK, Agent Runtime, modèles). Facturée <strong>à l'usage</strong> (tokens, calcul).</p>
+          </div>
+          <div class="clarify-card">
+            <h4>Application Gemini (grand public / Workspace)</h4>
+            <p>Assistant IA du quotidien inclus gratuitement avec les licences Google Workspace. Produit totalement différent.</p>
+          </div>
+          <div class="clarify-card">
+            <h4>Google Agentspace</h4>
+            <p>Nom précédent de Gemini Enterprise, avant le renommage du 9 octobre 2025. Même produit, ancien nom — utile pour comprendre d'anciennes docs/articles.</p>
+          </div>
+        </div>
+
+        <div class="callout quote">
+          <p>« Bien que les deux fassent partie de l'écosystème Gemini Enterprise, ils doivent être achetés séparément : Application Gemini Enterprise — facturée par licence et par mois. Gemini Enterprise Agent Platform — plateforme développeurs, facturation à l'usage. »</p>
+        </div>
+        <p class="src">FAQ officielle — <a href="https://cloud.google.com/gemini-enterprise/faq" target="_blank">cloud.google.com/gemini-enterprise/faq</a></p>
+
+        <h3 id="vue-ensemble-chrono">Chronologie 2025-2026</h3>
+        <p class="section-desc">Le produit évolue à très grande vitesse (plusieurs dizaines de connecteurs et fonctionnalités ajoutés par mois en 2026). Cette chronologie sert à comprendre pourquoi tel article de presse ou telle capture d'écran peut déjà être obsolète.</p>
+        <div class="timeline">
+          <div class="tl-item"><span class="tl-date">9-10 octobre 2025</span><p>Lancement officiel de <strong>Gemini Enterprise</strong>, renommage/évolution de Google Agentspace. Tarifs annoncés : Business 21 $, Standard/Enterprise « à partir de » 30 $/mois. <a href="https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise" target="_blank">Source</a></p></div>
+          <div class="tl-item"><span class="tl-date">18 novembre 2025</span><p>Annonce de <strong>Google Antigravity</strong> (IDE agentique) aux côtés de Gemini 3, en preview publique.</p></div>
+          <div class="tl-item"><span class="tl-date">22 avril 2026</span><p>Refonte majeure : lancement de la <strong>Gemini Enterprise Agent Platform</strong> (évolution de Vertex AI) avec Agent Designer, Inbox, Projects, Canvas, Agent Gallery enrichie, partenariats Oracle/Salesforce/ServiceNow/Adobe/Workday/Accenture. <a href="https://cloud.google.com/blog/products/ai-machine-learning/the-new-gemini-enterprise-one-platform-for-agent-development" target="_blank">Source</a></p></div>
+          <div class="tl-item"><span class="tl-date">1er août 2026</span><p>Passage en disponibilité générale de l'édition <strong>Pay-as-you-go</strong>.</p></div>
+          <div class="tl-item"><span class="tl-date">17 août 2026</span><p>GA des outils IA développeurs (Antigravity, Android Studio) pour Standard/Plus/PAYG ; lancement des contrôles de facturation des dépassements.</p></div>
+          <div class="tl-item"><span class="tl-date">21 août 2026</span><p><strong>Antigravity inclus sans coût additionnel</strong> dans les abonnements Standard, Plus et Standard Emerging Market. <a href="https://cloud.google.com/blog/products/ai-machine-learning/expanding-google-antigravity-for-enterprise-customers" target="_blank">Source</a></p></div>
+          <div class="tl-item"><span class="tl-date">25 août 2026</span><p>Lancement de la déclinaison sectorielle <strong>Gemini Enterprise for Financial Services</strong> (Deutsche Bank partenaire de conception).</p></div>
+          <div class="tl-item"><span class="tl-date">27-28 août 2026</span><p>Dernière mise à jour connue de la documentation officielle au moment de cette recherche.</p></div>
+        </div>
+      </section>
+
+      <hr class="sep">
+
+      <section class="doc-section" id="tarification">
+        <span class="eyebrow">02 — Commercial</span>
+        <h1>Éditions & tarification</h1>
+        <h1 class="sub">Ce qui est publiquement affiché, et ce qui nécessite un devis Google Cloud</h1>
+
+        <p>Gemini Enterprise se décline en <strong>cinq éditions commerciales</strong> : Business, Standard, Plus, Frontline (add-on), et Paiement à l'usage. S'y ajoutent des variantes à accès restreint (Education, Marchés émergents).</p>
+
+        <div class="card-row">
+          <div class="stat-card"><strong>21 $ / mois</strong><span>Business, par utilisateur (prix public affiché)</span></div>
+          <div class="stat-card"><strong>« à partir de » 30 $ / mois</strong><span>Standard & Plus, prix unique affiché (aucun tarif Plus distinct publié)</span></div>
+          <div class="stat-card"><strong>150 licences</strong><span>Minimum Standard/Plus existant requis pour activer Frontline</span></div>
+          <div class="stat-card"><strong>30 jours</strong><span>Essai gratuit disponible sur Business et Standard/Plus</span></div>
+        </div>
+        <p class="src">Source : <a href="https://cloud.google.com/gemini-enterprise" target="_blank">cloud.google.com/gemini-enterprise</a>, page consultée le 28/08/2026</p>
+
+        <div class="callout warn">
+          <p><strong>Aucun tarif Plus n'est officiellement publié.</strong> La page produit affiche un bloc unique « Standard/Plus à partir de 30 $ ». Des revendeurs tiers avancent 50-60 $/mois pour Plus <span class="badge low">non vérifié</span> — ne jamais citer ce chiffre comme officiel à un client. Toujours obtenir un tarif nominatif via le commercial Google Cloud.</p>
+        </div>
+
+        <h3 id="tarification-tableau">Tableau comparatif des éditions</h3>
+        <div class="table-wrap">
+        <table>
+          <tr><th>Fonctionnalité</th><th class="center">Business</th><th class="center">Standard</th><th class="center">Plus</th><th class="center">Paiement à l'usage</th><th class="center">Frontline</th></tr>
+          <tr><td>Stockage / indexation par utilisateur (pool)</td><td class="center">25 Gio</td><td class="center">30 Gio</td><td class="center">75 Gio</td><td class="center">à l'usage</td><td class="center">2 Gio</td></tr>
+          <tr><td>Écosystème complet de connecteurs</td><td class="center no">—</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+          <tr><td>Accès prioritaire aux derniers modèles Gemini</td><td class="center no">—</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center no">—</td><td class="center no">—</td></tr>
+          <tr><td>Création de notebooks Gemini Notebook Enterprise</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center no">—</td><td class="center no">—</td></tr>
+          <tr><td>Gemini Code Assist Standard</td><td class="center no">—</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center no">—</td><td class="center no">—</td></tr>
+          <tr><td>Création d'agents no-code personnalisés</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center no">—</td></tr>
+          <tr><td>Agents full-code externes (ADK, tiers)</td><td class="center no">—</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓*</td></tr>
+          <tr><td>Accès au marketplace des agents</td><td class="center no">—</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+          <tr><td>Sécurité entreprise (VPC-SC, CMEK, HIPAA, FedRAMP High)</td><td class="center no">—</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+          <tr><td>Outils IA développeurs (Antigravity, Android Studio)</td><td class="center no">—</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center no">—</td></tr>
+        </table>
+        </div>
+        <p class="src">* Frontline : accès en lecture aux agents déjà provisionnés par l'administrateur uniquement, pas de création. Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/editions" target="_blank">docs.cloud.google.com/gemini/enterprise/docs/editions</a></p>
+
+        <h3 id="tarification-quotas">Quotas quotidiens inclus & dépassements</h3>
+        <p class="section-desc">Le prix du siège n'achète qu'un <strong>quota d'usage quotidien, mutualisé</strong> entre tous les utilisateurs d'une même édition, projet et localisation. Au-delà, la facturation bascule sur les tarifs Agent Platform à l'usage.</p>
+
+        <div class="table-wrap">
+        <table>
+          <tr><th>Fonctionnalité</th><th class="center">Standard</th><th class="center">Plus</th></tr>
+          <tr><td>Requêtes Assistant / jour / licence</td><td class="center">160</td><td class="center">200</td></tr>
+          <tr><td>Création d'agents no-code / jour</td><td class="center">1</td><td class="center">10</td></tr>
+          <tr><td>Génération de vidéos / jour</td><td class="center">2</td><td class="center">3</td></tr>
+          <tr><td>Génération d'images / jour</td><td class="center">5</td><td class="center">10</td></tr>
+          <tr><td>Deep Research / jour</td><td class="center">3</td><td class="center">10</td></tr>
+          <tr><td>Crédit outils IA développeurs (Antigravity)</td><td class="center">10 $/mois</td><td class="center">15 $/mois</td></tr>
+        </table>
+        </div>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/quotas-and-overages" target="_blank">docs.cloud.google.com/gemini/enterprise/docs/quotas-and-overages</a></p>
+
+        <div class="callout info">
+          <p>Sans activation explicite des dépassements par un administrateur, l'usage s'arrête simplement une fois le quota épuisé (« hard cap ») — sauf pour le stockage, qui déborde automatiquement à 5 $/Gio/mois. Les dépassements exigent un compte de facturation Cloud <strong>facturé (invoiced)</strong> — impossible à activer sur un compte self-service carte bancaire.</p>
+        </div>
+      </section>
+
+      <hr class="sep">
+
+      <section class="doc-section" id="prerequis">
+        <span class="eyebrow">03 — Mise en œuvre</span>
+        <h1>Prérequis techniques</h1>
+        <h1 class="sub">Ce qu'il faut avoir en place côté client avant de démarrer un projet</h1>
+
+        <p>Contrairement à l'édition Business (self-service, sans IT), les éditions Standard/Plus/Pay-as-you-go nécessitent un projet Google Cloud géré par l'IT, un compte de facturation actif, et l'activation de quatre API.</p>
+
+        <div class="table-wrap">
+        <table>
+          <tr><th>API requise</th><th>Identifiant</th><th>Rôle</th></tr>
+          <tr><td>Gemini Enterprise / Discovery Engine</td><td><code>discoveryengine.googleapis.com</code></td><td>Cœur du produit : data stores, apps, agents, assistant</td></tr>
+          <tr><td>Vertex AI / AI Platform</td><td><code>aiplatform.googleapis.com</code></td><td>Modèles génératifs + périmètre des plafonds de dépense</td></tr>
+          <tr><td>Cloud Storage</td><td><code>storage.googleapis.com</code></td><td>Connexion de données stockées sur Cloud Storage</td></tr>
+          <tr><td>Identity and Access Management</td><td><code>iam.googleapis.com</code></td><td>Gestion des rôles et permissions</td></tr>
+        </table>
+        </div>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/quickstart-gemini-enterprise" target="_blank">docs.cloud.google.com/.../quickstart-gemini-enterprise</a></p>
+
+        <h3 id="prerequis-iam">Rôles IAM & fournisseur d'identité (SSO)</h3>
+        <div class="table-wrap">
+        <table>
+          <tr><th>Rôle</th><th>Identifiant</th><th>Usage</th></tr>
+          <tr><td>Gemini Enterprise Admin</td><td><code>roles/discoveryengine.agentspaceAdmin</code></td><td>Administration complète : data stores, contrôle d'accès par app</td></tr>
+          <tr><td>Gemini Enterprise User</td><td><code>roles/discoveryengine.agentspaceUser</code></td><td>Accès à des apps spécifiques</td></tr>
+          <tr><td>Discovery Engine Editor / Viewer</td><td><code>roles/discoveryengine.editor</code> / <code>.viewer</code></td><td>Lecture/écriture ou lecture seule sur les ressources</td></tr>
+        </table>
+        </div>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/access-control" target="_blank">docs.cloud.google.com/.../access-control</a></p>
+
+        <p>Deux catégories de fournisseurs d'identité sont supportées : <strong>Google Identity</strong> (recommandé, natif Workspace + fédération OAuth tierce), ou un <strong>fournisseur tiers via Workforce Identity Federation</strong> (Microsoft Entra ID, Okta, tout OIDC/SAML 2.0). Point important : les connecteurs Microsoft 365 par ingestion exigent obligatoirement Entra ID + Workforce Identity Federation.</p>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/configure-identity-provider" target="_blank">docs.cloud.google.com/.../configure-identity-provider</a></p>
+
+        <h3 id="prerequis-flux">Flux de provisioning — étapes de haut niveau</h3>
+        <ol>
+          <li>Se connecter avec un compte Google (création possible pour un nouveau client Cloud)</li>
+          <li>Sélectionner ou créer un projet Google Cloud (<code>roles/resourcemanager.projectCreator</code> requis)</li>
+          <li>Vérifier que la facturation Cloud est activée sur le projet</li>
+          <li>Activer les 4 API requises via le lien d'activation groupée</li>
+          <li>Attribuer le rôle Gemini Enterprise Admin à son propre compte</li>
+          <li>Créer une app (localisation « globale » recommandée par défaut)</li>
+          <li>Créer un data store en connectant une source (Cloud Storage ou connecteur tiers)</li>
+          <li>Attendre l'indexation/synchronisation avant de tester</li>
+        </ol>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/quickstart-gemini-enterprise" target="_blank">docs.cloud.google.com/.../quickstart-gemini-enterprise</a></p>
+
+        <div class="callout warn">
+          <p>Le <strong>CMEK doit être enregistré avant la création de l'app</strong> — les apps créées en amont restent non protégées. De même, un périmètre <strong>VPC Service Controls doit être créé avant les data stores</strong> : impossible de l'appliquer rétroactivement sans tout supprimer et recréer.</p>
+        </div>
+
+        <h3 id="prerequis-checklist">Checklist de cadrage projet</h3>
+        <ul class="checklist">
+          <li>Compte Google / organisation Cloud existante, ou création prévue</li>
+          <li>Projet Google Cloud dédié + titulaire du rôle <code>projectCreator</code></li>
+          <li>Compte de facturation actif — <strong>préciser self-service (max 25 sièges, pas de dépassements) vs facturé/invoiced (max 1000 sièges, dépassements activables)</strong></li>
+          <li>Les 4 API activées (Discovery Engine, Vertex AI, Cloud Storage, IAM)</li>
+          <li>Un admin désigné avec le rôle Gemini Enterprise Admin</li>
+          <li>Un admin désigné avec le rôle Billing Account Administrator</li>
+          <li>Décision sur le fournisseur d'identité (Google Identity natif vs Entra ID/Okta fédéré)</li>
+          <li>Si connecteurs Microsoft 365 : Entra ID + Workforce Identity Federation opérationnels</li>
+          <li>Édition et nombre de sièges validés vs seuils (25 self-serve / 1000 invoiced / 150+ pour Frontline)</li>
+          <li>Région choisie (global par défaut, ou eu/us/pays selon résidence des données) avec limitations fonctionnelles associées validées</li>
+          <li>Décision sur l'activation des dépassements + plafond de dépense mensuel défini avant mise en production</li>
+          <li>Si CMEK ou VPC-SC requis : enregistrés avant la création de l'app / des data stores</li>
+          <li>Au moins un data store et une source de données identifiés pour la première app</li>
+          <li>Tarification finale validée avec un commercial Google Cloud</li>
+        </ul>
+      </section>
+
+      <hr class="sep">
+
+      <section class="doc-section" id="gouvernance">
+        <span class="eyebrow">04 — Sécurité</span>
+        <h1>Gouvernance & sécurité</h1>
+        <h1 class="sub">Ce qu'un DSI/RSSI doit savoir avant de valider un déploiement</h1>
+
+        <h4>Chiffrement & réseau</h4>
+        <p>Chiffrement par défaut via <strong>CMEK</strong> (Customer-Managed Encryption Keys, Cloud KMS), avec support EKM/HSM externe. <strong>VPC Service Controls</strong> intégré pour bloquer l'accès public en dehors des règles d'ingress approuvées. Les connecteurs tiers passent par des points de terminaison publics hors réseau Google, sécurisés par des règles de pare-feu VPC restreignant les connexions sortantes aux FQDN autorisés.</p>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/security-overview" target="_blank">docs.cloud.google.com/.../security-overview</a></p>
+
+        <div class="callout warn">
+          <p><strong>CMEK et Access Transparency ne sont pas disponibles en région <code>global</code></strong> — un choix de région globale (derniers modèles, meilleure latence) implique de renoncer à ces contrôles. Pour un client à exigence de résidence UE stricte, les régions <code>eu</code> ou <code>europe-west2</code> (UK) sont nécessaires, au prix d'un accès retardé aux derniers modèles/fonctionnalités (ex. génération vidéo indisponible en multi-région eu/us).</p>
+        </div>
+
+        <h4>Model Armor</h4>
+        <p>Filtrage proactif des prompts/réponses de l'assistant contre l'injection de prompt, le jailbreak, la fuite de données sensibles et le contenu nuisible. Inclus sans coût supplémentaire sur toutes les éditions.</p>
+        <div class="callout warn">
+          <p><strong>Model Armor ne couvre pas les agents personnalisés créés par l'organisation</strong> — uniquement l'assistant et les agents Google/employés. Il ne masque pas non plus les données personnelles détectées : il bloque intégralement la réponse plutôt que de la caviarder.</p>
+        </div>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/enable-model-armor" target="_blank">docs.cloud.google.com/.../enable-model-armor</a></p>
+
+        <h4>Journalisation & audit</h4>
+        <div class="callout warn">
+          <p>La documentation officielle indique explicitement : <strong>« les données sensibles ne sont pas filtrées des journaux d'audit »</strong> — le contenu intégral des prompts et réponses, y compris des données personnelles potentielles, est conservé tel quel dans Cloud Logging. Un contrôle d'accès rigoureux sur ces journaux est indispensable.</p>
+        </div>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/set-up-usage-audit-logs" target="_blank">docs.cloud.google.com/.../set-up-usage-audit-logs</a></p>
+
+        <h4>Confidentialité & entraînement des modèles</h4>
+        <div class="callout quote"><p>« Google won't use your data to train or fine-tune any AI/ML models without your prior permission or instruction » — s'applique à tous les modèles gérés sur Gemini Enterprise Agent Platform.</p></div>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention" target="_blank">docs.cloud.google.com/.../zero-data-retention</a></p>
+        <div class="callout warn">
+          <p>Exception documentée : Google peut journaliser les prompts pour détecter des abus et violations de sa politique d'utilisation acceptable (clause 4.3 des conditions Google Cloud). Suppression de données sur demande sous <strong>60 jours</strong>.</p>
+        </div>
+
+        <h3 id="gouvernance-conformite">Conformité & certifications</h3>
+        <div class="table-wrap">
+        <table>
+          <tr><th>Référentiel</th><th>Statut</th></tr>
+          <tr><td>HIPAA</td><td>Pris en charge — nécessite un Business Associate Agreement signé</td></tr>
+          <tr><td>FedRAMP</td><td>Pris en charge — voir distinction Low/High ci-dessous</td></tr>
+          <tr><td>ISO 27001 / 27017 / 27018 / 27701</td><td>Pris en charge</td></tr>
+          <tr><td>SOC 1 / 2 / 3</td><td>Pris en charge</td></tr>
+          <tr><td>PCI DSS</td><td>Pris en charge</td></tr>
+          <tr><td>BSI C5:2020 (référentiel allemand)</td><td>Pris en charge</td></tr>
+        </table>
+        </div>
+        <p class="src">S'applique aux éditions Standard, Plus et Gemini Notebook Enterprise. Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/compliance-security-controls" target="_blank">docs.cloud.google.com/.../compliance-security-controls</a></p>
+
+        <div class="callout warn">
+          <p><strong>FedRAMP High n'est pas automatique.</strong> Il exige un déploiement dédié « Gemini for Government » via Assured Workloads (région US Multi-region obligatoire), avec de nombreuses fonctionnalités désactivées ou interdites : galerie de prompts, grounding Maps/Search, Imagen, Veo, <strong>Model Armor non autorisé en IL4</strong>, NotebookLM. Présenter Gemini Enterprise standard comme « FedRAMP High compliant » sans cette précision serait trompeur.</p>
+        </div>
+        <p class="src">Source : <a href="https://docs.cloud.google.com/docs/security/compliance/deploy-gemini-gov" target="_blank">docs.cloud.google.com/.../deploy-gemini-gov</a></p>
+
+        <h3 id="gouvernance-vigilance">Synthèse — points de vigilance pour un discours DSI/RSSI</h3>
+        <ul>
+          <li>Statut de conformité de l'édition <strong>Business non confirmé</strong> — le tableau officiel cible Standard/Plus/Notebook Enterprise uniquement</li>
+          <li>CMEK et Access Transparency indisponibles en région <code>global</code></li>
+          <li>Journaux d'audit non filtrés des données sensibles</li>
+          <li>Model Armor ne couvre pas les agents personnalisés de l'organisation</li>
+          <li>Le RGPD est adressé contractuellement (DPA) et techniquement (résidence UE), <strong>pas via une certification</strong> au même titre qu'ISO ou SOC</li>
+          <li>VPC-SC impose une recréation des data stores existants ; les actions de l'assistant sont bloquées par défaut jusqu'à allowlisting Google</li>
+          <li>Deux couches IAM distinctes coexistent : rôles Discovery Engine (application) et rôles <code>aiplatform.*</code> (plateforme d'agents) — à auditer toutes les deux</li>
+        </ul>
+      </section>
+
+      <hr class="sep">
+
+      <section class="doc-section" id="fonctionnalites">
+        <span class="eyebrow">05 — Produit</span>
+        <h1>Fonctionnalités natives</h1>
+        <h1 class="sub">Ce que la plateforme fait réellement, au-delà du discours marketing</h1>
+
+        <div class="chip-list">
+          <span class="chip">Recherche d'entreprise</span>
+          <span class="chip">Gemini Notebook Enterprise</span>
+          <span class="chip">Deep Research</span>
+          <span class="chip">Canvas</span>
+          <span class="chip">Data Insights Agent</span>
+          <span class="chip">Core Assistant</span>
+          <span class="chip">Skills</span>
+          <span class="chip">Projects</span>
+          <span class="chip">Inbox</span>
+          <span class="chip">Agents longue durée</span>
+        </div>
+
+        <p><strong>Recherche & Assistant</strong> — recherche multimodale sensible aux permissions sur l'ensemble des sources connectées, avec réponses ancrées (grounding) et citations. Recherche image/vidéo en disponibilité générale depuis mars 2026.</p>
+        <p><strong>Gemini Notebook Enterprise</strong> (ex-NotebookLM Enterprise, renommé en juillet 2026) — assistant de recherche/rédaction basé sur des sources importées, génère des résumés audio façon podcast, des diapositives et infographies.</p>
+        <p><strong>Deep Research</strong> — agent de recherche approfondie en boucle Plan → recherche multi-sources → itération → livrable, mode asynchrone (plusieurs minutes à heures), production de rapports cités avec visuels. Limite : 120 minutes d'exécution max, pas de support CMEK/VPC-SC en preview.</p>
+        <p><strong>Canvas</strong> — éditeur intégré pour créer/modifier documents et présentations en temps réel, avec export vers les formats Microsoft Office.</p>
+        <p class="src">Source pour l'ensemble : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/agent-gallery" target="_blank">docs.cloud.google.com/.../agent-gallery</a> et notes de version officielles</p>
+
+        <div class="callout warn">
+          <p>L'agent <strong>Idea Generation a été retiré de la plateforme</strong> le 14 juillet 2026 — ne pas le proposer dans une offre commerciale actuelle. Le <strong>Data Science Agent</strong> documenté en détail par Google relève en réalité de Colab Enterprise plutôt que strictement de l'app Gemini Enterprise — à clarifier si le besoin client porte sur de la data science avancée.</p>
+        </div>
+
+        <h3 id="fonctionnalites-agents">Agent Designer & Marketplace</h3>
+        <p><strong>Agent Designer</strong> est le constructeur no-code/low-code intégré, avec deux modes : conversationnel (prompts en langage naturel) et éditeur visuel de workflow. Supporte les agents mono-étape et multi-étapes (agent principal + sous-agents), planification récurrente, et aperçu en direct avant déploiement.</p>
+        <p>L'<strong>Agent Gallery</strong> organise les agents en quatre sections : Made by Google (Deep Research, Core Assistant...), agents de l'organisation, agents personnels, et Marketplace (agents tiers sur demande d'accès, validée par un administrateur).</p>
+
+        <div class="table-wrap">
+        <table>
+          <tr><th>Partenaire</th><th>Agent</th><th>Fonction</th></tr>
+          <tr><td>Adobe</td><td>Adobe Marketing Agent</td><td>Requêtes en langage naturel sur les capacités CX Adobe</td></tr>
+          <tr><td>Salesforce</td><td>Agentforce Sales</td><td>Engagement des leads, briefs de réunion, gestion de pipeline</td></tr>
+          <tr><td>ServiceNow</td><td>Now Assist for ITOM</td><td>Gestion des alertes et incidents</td></tr>
+          <tr><td>Workday (Sana)</td><td>Sana Self-Service Agent</td><td>300+ skills RH et finance</td></tr>
+          <tr><td>Atlassian</td><td>Rovo</td><td>Coéquipier IA Jira/Confluence, 2026 Partner of the Year</td></tr>
+          <tr><td>Oracle</td><td>Oracle AI Database Agent</td><td>Interroger les données Oracle directement</td></tr>
+          <tr><td>Accenture</td><td>Supply Chain Inventory Advisor</td><td>Optimisation de la planification des stocks</td></tr>
+          <tr><td>Deloitte</td><td>Tariff Management Suite</td><td>Workflows réglementaires douaniers</td></tr>
+        </table>
+        </div>
+        <p class="src">Sélection parmi plus de 80 agents partenaires référencés. Source : <a href="https://cloud.google.com/blog/products/ai-machine-learning/partner-built-agents-available-in-gemini-enterprise" target="_blank">cloud.google.com/blog/.../partner-built-agents-available-in-gemini-enterprise</a></p>
+
+        <h3 id="fonctionnalites-connecteurs">Connecteurs natifs — panorama</h3>
+        <p class="section-desc">Deux mécanismes : <strong>fédération</strong> (données récupérées à la source sans copie) et <strong>ingestion/indexation</strong> (copie dans l'index, meilleure recherche mais plus de stockage). Cette liste n'est probablement pas exhaustive — Google ajoute des dizaines de connecteurs par mois.</p>
+
+        <div class="table-wrap">
+        <table>
+          <tr><th>Catégorie</th><th>Connecteurs principaux</th></tr>
+          <tr><td>Google Workspace / Cloud</td><td>Drive, Gmail, Calendar, Chat, Sites, BigQuery, Cloud Storage, Cloud SQL, Spanner, Firestore, Bigtable, AlloyDB</td></tr>
+          <tr><td>Microsoft</td><td>Entra ID, OneDrive, Outlook, SharePoint (Online + Data Center), Teams, Dynamics 365</td></tr>
+          <tr><td>Gestion de projet</td><td>Jira (Cloud + Data Center), Confluence, Asana, Monday.com, Linear, Smartsheet, Wrike, Notion</td></tr>
+          <tr><td>CRM / Ventes / Marketing</td><td>Salesforce, HubSpot, Zoho CRM, Marketo, ZoomInfo, PandaDoc, Calendly</td></tr>
+          <tr><td>ITSM / Support</td><td>ServiceNow, Zendesk, Freshservice, PagerDuty, Intercom</td></tr>
+          <tr><td>Développement logiciel</td><td>GitHub, GitLab, Sourcegraph, Hugging Face</td></tr>
+          <tr><td>Communication</td><td>Slack, Webex, Cisco Workspaces</td></tr>
+          <tr><td>Stockage de fichiers</td><td>Dropbox, Box, Egnyte, AODocs</td></tr>
+          <tr><td>Finance / Conformité</td><td>Stripe, NetSuite, SAP HANA, Workday, Docusign, iManage, FactSet, Moody's, S&P Global</td></tr>
+        </table>
+        </div>
+        <p class="src">De nombreux connecteurs sont encore en Public Preview plutôt qu'en disponibilité générale — à vérifier connecteur par connecteur avant tout engagement de production. Liste complète et statuts détaillés : voir le dossier .md en annexe (section 07). Source : <a href="https://docs.cloud.google.com/gemini/enterprise/docs/connectors/introduction-to-connectors-and-data-stores" target="_blank">docs.cloud.google.com/.../introduction-to-connectors-and-data-stores</a></p>
+
+        <h3 id="fonctionnalites-modeles">Modèles & capacités multimodales</h3>
+        <p>Ligne de modèles Gemini 3.x évoluant très rapidement (Gemini 3 Pro → 3.1 Pro → 3.5/3.6/3.7 Flash entre février et août 2026). Fenêtre de contexte jusqu'à <strong>1 million de tokens</strong> en entrée, 64 000 tokens en sortie. Modalités d'entrée : texte, audio, image, vidéo, dépôts de code entiers.</p>
+        <p>Synthèse vocale (Gemini TTS) : <strong>28 voix distinctes</strong>, <strong>68 langues</strong> au total (23 en GA, 45 en preview), synthèse multi-locuteurs avec contrôle du ton et de l'émotion.</p>
+        <div class="callout warn">
+          <p>Le rythme de sortie/retrait des versions de modèles Flash est très rapide (3.5 → 3.6 → 3.7 en quelques semaines) — revérifier la version active au moment du cadrage de chaque projet plutôt que de se fier à un document daté.</p>
+        </div>
+        <p class="src">Source : <a href="https://deepmind.google/models/model-cards/gemini-3-1-pro/" target="_blank">deepmind.google/models/model-cards/gemini-3-1-pro</a> ; <a href="https://docs.cloud.google.com/text-to-speech/docs/gemini-tts" target="_blank">docs.cloud.google.com/text-to-speech/docs/gemini-tts</a></p>
+      </section>
+
+      <hr class="sep">
+
+      <section class="doc-section" id="antigravity">
+        <span class="eyebrow">06 — Écosystème</span>
+        <h1>Antigravity & cas d'usage clients</h1>
+        <h1 class="sub">L'outil de développement inclus, et ce que les vrais clients rapportent</h1>
+
+        <h3 id="antigravity-bundle">Le bundle Google Antigravity</h3>
+        <p><strong>Google Antigravity</strong> est une plateforme agentique de développement (IDE chat-first, CLI, SDK) annoncée en novembre 2025. Depuis le <strong>21 août 2026</strong>, elle est incluse sans coût additionnel dans les abonnements Gemini Enterprise Standard, Plus et Standard Emerging Market.</p>
+        <div class="callout quote"><p>« Antigravity is available now as part of eligible Gemini Enterprise app subscriptions, including out-of-the-box administrative and spend controls. »</p></div>
+        <p class="src">Source : <a href="https://cloud.google.com/blog/products/ai-machine-learning/expanding-google-antigravity-for-enterprise-customers" target="_blank">cloud.google.com/blog/.../expanding-google-antigravity-for-enterprise-customers</a></p>
+
+        <div class="table-wrap">
+        <table>
+          <tr><th>Édition</th><th>Antigravity inclus ?</th></tr>
+          <tr><td>Standard</td><td><span class="badge high">Oui, confirmé</span></td></tr>
+          <tr><td>Plus</td><td><span class="badge high">Oui, confirmé</span></td></tr>
+          <tr><td>Standard Emerging Market</td><td><span class="badge high">Oui, confirmé</span></td></tr>
+          <tr><td>Pay-as-you-go</td><td><span class="badge high">Oui, confirmé</span></td></tr>
+          <tr><td>Business</td><td><span class="badge low">Non confirmé — probablement exclu</span></td></tr>
+          <tr><td>Frontline</td><td><span class="badge low">Statut ambigu dans les sources</span></td></tr>
+        </table>
+        </div>
+
+        <div class="callout warn">
+          <p>Le crédit précis inclus par licence n'est pas publié en tant que tel dans l'annonce Antigravity — le chiffre le plus fiable trouvé est celui de la page quotas officielle : <strong>10 $/utilisateur/mois (Standard) et 15 $/utilisateur/mois (Plus)</strong>, appliqué en pool partagé sur une fenêtre glissante de 7 jours, non reporté. Ne jamais confondre avec l'offre distincte « 100 $ de crédits » réservée aux abonnés individuels Google AI Ultra, sans lien avec Gemini Enterprise.</p>
+        </div>
+
+        <h3 id="antigravity-cas">Cas d'usage clients réels — ce qui est vérifiable</h3>
+        <div class="table-wrap">
+        <table>
+          <tr><th>Client</th><th>Source</th><th>Résultat chiffré</th><th>Fiabilité</th></tr>
+          <tr><td>Virgin Voyages</td><td>Communiqué de presse officiel</td><td>-40% temps création contenu marketing, +28% CA (juillet, glissement annuel)</td><td><span class="badge high">Élevée</span></td></tr>
+          <tr><td>Deutsche Bank</td><td>Blog officiel Google Cloud, citation nominative</td><td>Aucun chiffre — citation attribuée (design partner Financial Research)</td><td><span class="badge high">Élevée pour la citation</span></td></tr>
+          <tr><td>Berenberg</td><td>Fiche client + vidéo témoignage</td><td>85-90% de gain de rapidité (non revérifié sur page source)</td><td><span class="badge med">Moyenne</span></td></tr>
+          <tr><td>Client média anonymisé (Endava)</td><td>Étude de cas partenaire intégrateur</td><td>-60% temps recherche documentaire, +30% rapidité onboarding</td><td><span class="badge med">Moyenne (client anonymisé)</span></td></tr>
+          <tr><td>Kohl's, Gordon Food Service, Huge, Etsy, Unilever</td><td>Fiches clients / communiqués Google Cloud</td><td>Aucun chiffre — qualitatif uniquement</td><td><span class="badge low">Qualitatif</span></td></tr>
+        </table>
+        </div>
+        <p class="src">Détail complet des citations et sources : voir le dossier .md en annexe.</p>
+
+        <p><strong>Virgin Voyages</strong> a déployé plus de 50 agents IA spécialisés sur Gemini Enterprise, dont « Email Ellie », un agent marketing développé en interne. <strong>Deutsche Bank</strong> est partenaire de conception de l'agent Financial Research sectoriel lancé le 25 août 2026, aux côtés de CME Group, BNY, Citi Wealth, Lloyds, Macquarie et Signal Iduna (plus de 10 000 employés équipés).</p>
+      </section>
+
+      <hr class="sep">
+
+      <section class="doc-section" id="sources">
+        <span class="eyebrow">07 — Annexes</span>
+        <h1>Dossiers de recherche complets</h1>
+        <h1 class="sub">Version brute, intégralement sourcée, de chaque section ci-dessus</h1>
+        <p class="section-desc">Chaque dossier ci-dessous contient la recherche complète ayant servi à produire cette synthèse : citations exactes, tableaux étendus, chronologies détaillées, et la liste intégrale des sources primaires et secondaires consultées.</p>
+
+        <div class="research-links">
+          <a class="research-link" href="research/01-tarification-editions.md" target="_blank">
+            <div class="rl-text"><strong>01 · Tarification & Éditions</strong><span>Prix, quotas, conditions contractuelles, chronologie des changements de prix</span></div>
+            <span class="rl-arrow">↗</span>
+          </a>
+          <a class="research-link" href="research/02-prerequis-quotas.md" target="_blank">
+            <div class="rl-text"><strong>02 · Prérequis techniques, Quotas & Dépassements</strong><span>APIs, rôles IAM, SSO, flux de provisioning, checklist complète</span></div>
+            <span class="rl-arrow">↗</span>
+          </a>
+          <a class="research-link" href="research/03-gouvernance-securite.md" target="_blank">
+            <div class="rl-text"><strong>03 · Gouvernance & Sécurité</strong><span>Chiffrement, VPC-SC, Model Armor, IAM, conformité FedRAMP/HIPAA détaillée</span></div>
+            <span class="rl-arrow">↗</span>
+          </a>
+          <a class="research-link" href="research/04-fonctionnalites-connecteurs.md" target="_blank">
+            <div class="rl-text"><strong>04 · Fonctionnalités & Connecteurs</strong><span>Liste complète des connecteurs par catégorie, agents partenaires, modèles</span></div>
+            <span class="rl-arrow">↗</span>
+          </a>
+          <a class="research-link" href="research/05-antigravity-cas-usage.md" target="_blank">
+            <div class="rl-text"><strong>05 · Antigravity, Crédits & Cas d'usage clients</strong><span>Détail complet du bundle et de chaque étude de cas avec citations</span></div>
+            <span class="rl-arrow">↗</span>
+          </a>
+        </div>
+
+        <div class="callout info">
+          <p>Méthode de recherche : lecture directe (WebFetch) des pages primaires <code>docs.cloud.google.com</code> et <code>cloud.google.com</code> chaque fois que possible, complétée par des extraits indexés de recherche web lorsque le rendu JavaScript empêchait une extraction complète. Toute affirmation non confirmable a été explicitement marquée plutôt que devinée. Recherche menée le 28/08/2026 — étant donné le rythme d'évolution du produit, revérifier les points commerciaux et de conformité avant tout engagement contractuel.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<footer class="doc-footer">
+  Document interne ATECNA — compilé le 28/08/2026. Accès par URL directe uniquement, non référencé publiquement (<code>noindex</code>). Ne pas partager en dehors du cadre commercial et projet ATECNA.
+</footer>
+
+<script>
+  document.querySelectorAll('nav.toc a').forEach(link=>{
+    link.addEventListener('click',()=>{
+      document.querySelectorAll('nav.toc a').forEach(a=>a.style.color='');
+    });
+  });
+</script>
+
+</body>
+</html>
